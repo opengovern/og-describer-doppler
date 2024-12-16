@@ -2,6 +2,7 @@ package steampipe
 
 import (
 	"context"
+	"github.com/opengovern/og-describer-doppler/steampipe-plugin-doppler/doppler"
 	"strings"
 
 	"go.uber.org/zap"
@@ -34,10 +35,7 @@ func ExtractTableName(resourceType string) string {
 
 // Plugin TODO
 func Plugin() *plugin.Plugin {
-	// return steampipe plugin object
-	// Example:
-	// return aws.Plugin(buildContext())
-	return nil
+	return doppler.Plugin(buildContext())
 }
 
 func ExtractTagsAndNames(logger *zap.Logger, plg *plugin.Plugin, resourceType string, source interface{}) (map[string]string, string, error) {
