@@ -2,6 +2,7 @@ package doppler
 
 import (
 	"context"
+	opengovernance "github.com/opengovern/og-describer-doppler/pkg/sdk/es"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
@@ -10,10 +11,10 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name: "doppler_secret",
 		List: &plugin.ListConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.ListSecret,
 		},
 		Get: &plugin.GetConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.GetSecret,
 		},
 		Columns: []*plugin.Column{
 			{Name: "raw", Type: proto.ColumnType_STRING, Description: "The raw value of the secret."},

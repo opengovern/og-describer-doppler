@@ -2,6 +2,7 @@ package doppler
 
 import (
 	"context"
+	opengovernance "github.com/opengovern/og-describer-doppler/pkg/sdk/es"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
@@ -10,10 +11,10 @@ func tableDopplerWorkplace(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name: "doppler_workplace",
 		List: &plugin.ListConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.ListWorkplace,
 		},
 		Get: &plugin.GetConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.GetWorkplace,
 		},
 		Columns: []*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the workplace."},

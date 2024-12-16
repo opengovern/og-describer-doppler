@@ -2,6 +2,7 @@ package doppler
 
 import (
 	"context"
+	opengovernance "github.com/opengovern/og-describer-doppler/pkg/sdk/es"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
@@ -10,10 +11,10 @@ func tableDopplerIntegration(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name: "doppler_integration",
 		List: &plugin.ListConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.ListIntegration,
 		},
 		Get: &plugin.GetConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.GetIntegration,
 		},
 		Columns: []*plugin.Column{
 			{Name: "slug", Type: proto.ColumnType_STRING, Description: "The slug identifier for the integration."},

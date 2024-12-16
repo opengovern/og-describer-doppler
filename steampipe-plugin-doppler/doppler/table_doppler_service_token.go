@@ -2,6 +2,7 @@ package doppler
 
 import (
 	"context"
+	opengovernance "github.com/opengovern/og-describer-doppler/pkg/sdk/es"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
@@ -10,10 +11,10 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name: "doppler_service_token",
 		List: &plugin.ListConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.ListServiceToken,
 		},
 		Get: &plugin.GetConfig{
-			Hydrate: nil,
+			Hydrate: opengovernance.GetServiceToken,
 		},
 		Columns: []*plugin.Column{
 			{Name: "name", Type: proto.ColumnType_STRING, Description: "The name of the service token."},
