@@ -67,6 +67,7 @@ func processWorkplaces(ctx context.Context, handler *resilientbridge.ResilientBr
 		return fmt.Errorf("error parsing response: %w", err)
 	}
 	workplace := workplaceListResponse.Workplace
+	wg.Add(1)
 	go func(workplace model.WorkplaceDescription) {
 		defer wg.Done()
 		value := models.Resource{
