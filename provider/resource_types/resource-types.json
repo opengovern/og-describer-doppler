@@ -1,0 +1,107 @@
+[
+  {
+    "ResourceName": "Doppler/Config",
+    "ListDescriber": "DescribeListByDoppler(describer.ListConfigs)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_config",
+    "Model": "Config"
+  },
+  {
+    "ResourceName": "Doppler/Environment",
+    "ListDescriber": "DescribeListByDoppler(describer.ListEnvironments)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_environment",
+    "Model": "Environment"
+  },
+  {
+    "ResourceName": "Doppler/Group",
+    "ListDescriber": "DescribeListByDoppler(describer.ListGroups)",
+    "GetDescriber": "DescribeSingleByDoppler(describer.GetGroup)",
+    "SteampipeTable": "doppler_group",
+    "Model": "Group"
+  },
+  {
+    "ResourceName": "Doppler/Integration",
+    "ListDescriber": "DescribeListByDoppler(describer.ListIntegrations)",
+    "GetDescriber": "DescribeSingleByDoppler(describer.GetIntegration)",
+    "SteampipeTable": "doppler_integration",
+    "Model": "Integration"
+  },
+  {
+    "ResourceName": "Doppler/Project/Member",
+    "ListDescriber": "DescribeListByDoppler(describer.ListProjectMembers)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_project_member",
+    "Model": "ProjectMember"
+  },
+  {
+    "ResourceName": "Doppler/Project/Role",
+    "ListDescriber": "DescribeListByDoppler(describer.ListProjectRoles)",
+    "GetDescriber": "DescribeSingleByDoppler(describer.GetProjectRole)",
+    "SteampipeTable": "doppler_project_role",
+    "Model": "ProjectRole"
+  },
+  {
+    "ResourceName": "Doppler/Project",
+    "ListDescriber": "DescribeListByDoppler(describer.ListProjects)",
+    "GetDescriber": "DescribeSingleByDoppler(describer.GetProject)",
+    "SteampipeTable": "doppler_project",
+    "Model": "Project"
+  },
+  {
+    "ResourceName": "Doppler/Secret",
+    "ListDescriber": "DescribeListByDoppler(describer.ListSecrets)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_secret",
+    "Model": "Secret"
+  },
+  {
+    "ResourceName": "Doppler/ServiceAccount",
+    "ListDescriber": "DescribeListByDoppler(describer.ListServiceAccounts)",
+    "GetDescriber": "DescribeSingleByDoppler(describer.GetServiceAccount)",
+    "SteampipeTable": "doppler_service_account",
+    "Model": "ServiceAccount"
+  },
+  {
+    "ResourceName": "Doppler/ServiceAccount/Token",
+    "ListDescriber": "DescribeListByDoppler(describer.ListServiceAccountTokens)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_service_account_token",
+    "Model": "ServiceAccountToken"
+  },
+  {
+    "ResourceName": "Doppler/ServiceToken",
+    "ListDescriber": "DescribeListByDoppler(describer.ListServiceTokens)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_service_token",
+    "Model": "ServiceToken"
+  },
+  {
+    "ResourceName": "Doppler/TrustIP",
+    "ListDescriber": "DescribeListByDoppler(describer.ListIPs)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_trust_ip",
+    "Model": "TrustIP"
+  },
+  {
+    "ResourceName": "Doppler/WorkPlace",
+    "ListDescriber": "DescribeListByDoppler(describer.ListWorkplaces)",
+    "GetDescriber": "",
+    "SteampipeTable": "doppler_workplace",
+    "Model": "Workplace"
+  },
+  {
+    "ResourceName": "Doppler/WorkPlace/Role",
+    "ListDescriber": "DescribeListByDoppler(describer.ListWorkplaceRoles)",
+    "GetDescriber": "DescribeSingleByDoppler(describer.GetWorkplaceRole)",
+    "SteampipeTable": "doppler_workplace_role",
+    "Model": "WorkplaceRole"
+  },
+  {
+    "ResourceName": "Doppler/WorkPlace/User",
+    "ListDescriber": "DescribeListByDoppler(describer.ListWorkplaceUsers)",
+    "GetDescriber": "DescribeSingleByDoppler(describer.GetWorkplaceUser)",
+    "SteampipeTable": "doppler_workplace_user",
+    "Model": "WorkplaceUser"
+  }
+]
