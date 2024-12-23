@@ -94,7 +94,13 @@ func (p ProjectPaginator) NextPage(ctx context.Context) ([]Project, error) {
 	return values, nil
 }
 
-var listProjectFilters = map[string]string{}
+var listProjectFilters = map[string]string{
+	"created_at":  "Description.CreatedAt",
+	"description": "Description.Description",
+	"id":          "Description.ID",
+	"name":        "Description.Name",
+	"slug":        "Description.Slug",
+}
 
 func ListProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListProject")
@@ -156,7 +162,13 @@ func ListProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	return nil, nil
 }
 
-var getProjectFilters = map[string]string{}
+var getProjectFilters = map[string]string{
+	"created_at":  "Description.CreatedAt",
+	"description": "Description.Description",
+	"id":          "Description.ID",
+	"name":        "Description.Name",
+	"slug":        "Description.Slug",
+}
 
 func GetProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetProject")
@@ -293,7 +305,13 @@ func (p ProjectRolePaginator) NextPage(ctx context.Context) ([]ProjectRole, erro
 	return values, nil
 }
 
-var listProjectRoleFilters = map[string]string{}
+var listProjectRoleFilters = map[string]string{
+	"created_at":     "Description.CreatedAt",
+	"identifier":     "Description.Identifier",
+	"is_custom_role": "Description.IsCustomRole",
+	"name":           "Description.Name",
+	"permissions":    "Description.Permissions",
+}
 
 func ListProjectRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListProjectRole")
@@ -355,7 +373,13 @@ func ListProjectRole(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	return nil, nil
 }
 
-var getProjectRoleFilters = map[string]string{}
+var getProjectRoleFilters = map[string]string{
+	"created_at":     "Description.CreatedAt",
+	"identifier":     "Description.Identifier",
+	"is_custom_role": "Description.IsCustomRole",
+	"name":           "Description.Name",
+	"permissions":    "Description.Permissions",
+}
 
 func GetProjectRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetProjectRole")
@@ -492,7 +516,13 @@ func (p ProjectMemberPaginator) NextPage(ctx context.Context) ([]ProjectMember, 
 	return values, nil
 }
 
-var listProjectMemberFilters = map[string]string{}
+var listProjectMemberFilters = map[string]string{
+	"access_all_environments": "Description.AccessAllEnvironments",
+	"environments":            "Description.Environments",
+	"role":                    "Description.Role",
+	"slug":                    "Description.Slug",
+	"type":                    "Description.Type",
+}
 
 func ListProjectMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListProjectMember")
@@ -554,7 +584,13 @@ func ListProjectMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	return nil, nil
 }
 
-var getProjectMemberFilters = map[string]string{}
+var getProjectMemberFilters = map[string]string{
+	"access_all_environments": "Description.AccessAllEnvironments",
+	"environments":            "Description.Environments",
+	"role":                    "Description.Role",
+	"slug":                    "Description.Slug",
+	"type":                    "Description.Type",
+}
 
 func GetProjectMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetProjectMember")
@@ -691,7 +727,14 @@ func (p EnvironmentPaginator) NextPage(ctx context.Context) ([]Environment, erro
 	return values, nil
 }
 
-var listEnvironmentFilters = map[string]string{}
+var listEnvironmentFilters = map[string]string{
+	"created_at":       "Description.CreatedAt",
+	"id":               "Description.ID",
+	"initial_fetch_at": "Description.InitialFetchAt",
+	"name":             "Description.Name",
+	"project":          "Description.Project",
+	"slug":             "Description.Slug",
+}
 
 func ListEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEnvironment")
@@ -753,7 +796,14 @@ func ListEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	return nil, nil
 }
 
-var getEnvironmentFilters = map[string]string{}
+var getEnvironmentFilters = map[string]string{
+	"created_at":       "Description.CreatedAt",
+	"id":               "Description.ID",
+	"initial_fetch_at": "Description.InitialFetchAt",
+	"name":             "Description.Name",
+	"project":          "Description.Project",
+	"slug":             "Description.Slug",
+}
 
 func GetEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEnvironment")
@@ -890,7 +940,20 @@ func (p ConfigPaginator) NextPage(ctx context.Context) ([]Config, error) {
 	return values, nil
 }
 
-var listConfigFilters = map[string]string{}
+var listConfigFilters = map[string]string{
+	"created_at":       "Description.CreatedAt",
+	"environment":      "Description.Environment",
+	"inheritable":      "Description.Inheritable",
+	"inheriting":       "Description.Inheriting",
+	"inherits":         "Description.Inherits",
+	"initial_fetch_at": "Description.InitialFetchAt",
+	"last_fetch_at":    "Description.LastFetchAt",
+	"locked":           "Description.Locked",
+	"name":             "Description.Name",
+	"project":          "Description.Project",
+	"root":             "Description.Root",
+	"slug":             "Description.Slug",
+}
 
 func ListConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListConfig")
@@ -952,7 +1015,20 @@ func ListConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	return nil, nil
 }
 
-var getConfigFilters = map[string]string{}
+var getConfigFilters = map[string]string{
+	"created_at":       "Description.CreatedAt",
+	"environment":      "Description.Environment",
+	"inheritable":      "Description.Inheritable",
+	"inheriting":       "Description.Inheriting",
+	"inherits":         "Description.Inherits",
+	"initial_fetch_at": "Description.InitialFetchAt",
+	"last_fetch_at":    "Description.LastFetchAt",
+	"locked":           "Description.Locked",
+	"name":             "Description.Name",
+	"project":          "Description.Project",
+	"root":             "Description.Root",
+	"slug":             "Description.Slug",
+}
 
 func GetConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetConfig")
@@ -1089,7 +1165,15 @@ func (p SecretPaginator) NextPage(ctx context.Context) ([]Secret, error) {
 	return values, nil
 }
 
-var listSecretFilters = map[string]string{}
+var listSecretFilters = map[string]string{
+	"computed":            "Description.Computed",
+	"computed_value_type": "Description.ComputedValueType",
+	"computed_visibility": "Description.ComputedVisibility",
+	"note":                "Description.Note",
+	"raw":                 "Description.Raw",
+	"raw_value_type":      "Description.RawValueType",
+	"raw_visibility":      "Description.RawVisibility",
+}
 
 func ListSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecret")
@@ -1151,7 +1235,15 @@ func ListSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	return nil, nil
 }
 
-var getSecretFilters = map[string]string{}
+var getSecretFilters = map[string]string{
+	"computed":            "Description.Computed",
+	"computed_value_type": "Description.ComputedValueType",
+	"computed_visibility": "Description.ComputedVisibility",
+	"note":                "Description.Note",
+	"raw":                 "Description.Raw",
+	"raw_value_type":      "Description.RawValueType",
+	"raw_visibility":      "Description.RawVisibility",
+}
 
 func GetSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecret")
@@ -1288,7 +1380,14 @@ func (p IntegrationPaginator) NextPage(ctx context.Context) ([]Integration, erro
 	return values, nil
 }
 
-var listIntegrationFilters = map[string]string{}
+var listIntegrationFilters = map[string]string{
+	"enabled": "Description.Enabled",
+	"kind":    "Description.Kind",
+	"name":    "Description.Name",
+	"slug":    "Description.Slug",
+	"syncs":   "Description.Syncs",
+	"type":    "Description.Type",
+}
 
 func ListIntegration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIntegration")
@@ -1350,7 +1449,14 @@ func ListIntegration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	return nil, nil
 }
 
-var getIntegrationFilters = map[string]string{}
+var getIntegrationFilters = map[string]string{
+	"enabled": "Description.Enabled",
+	"kind":    "Description.Kind",
+	"name":    "Description.Name",
+	"slug":    "Description.Slug",
+	"syncs":   "Description.Syncs",
+	"type":    "Description.Type",
+}
 
 func GetIntegration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIntegration")
@@ -1487,7 +1593,9 @@ func (p TrustIPPaginator) NextPage(ctx context.Context) ([]TrustIP, error) {
 	return values, nil
 }
 
-var listTrustIPFilters = map[string]string{}
+var listTrustIPFilters = map[string]string{
+	"ip": "Description.IP",
+}
 
 func ListTrustIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListTrustIP")
@@ -1549,7 +1657,9 @@ func ListTrustIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	return nil, nil
 }
 
-var getTrustIPFilters = map[string]string{}
+var getTrustIPFilters = map[string]string{
+	"ip": "Description.IP",
+}
 
 func GetTrustIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetTrustIP")
@@ -1686,7 +1796,15 @@ func (p ServiceTokenPaginator) NextPage(ctx context.Context) ([]ServiceToken, er
 	return values, nil
 }
 
-var listServiceTokenFilters = map[string]string{}
+var listServiceTokenFilters = map[string]string{
+	"config":      "Description.Config",
+	"created_at":  "Description.CreatedAt",
+	"environment": "Description.Environment",
+	"expires_at":  "Description.ExpiresAt",
+	"name":        "Description.Name",
+	"project":     "Description.Project",
+	"slug":        "Description.Slug",
+}
 
 func ListServiceToken(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceToken")
@@ -1748,7 +1866,15 @@ func ListServiceToken(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	return nil, nil
 }
 
-var getServiceTokenFilters = map[string]string{}
+var getServiceTokenFilters = map[string]string{
+	"config":      "Description.Config",
+	"created_at":  "Description.CreatedAt",
+	"environment": "Description.Environment",
+	"expires_at":  "Description.ExpiresAt",
+	"name":        "Description.Name",
+	"project":     "Description.Project",
+	"slug":        "Description.Slug",
+}
 
 func GetServiceToken(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceToken")
@@ -1885,7 +2011,12 @@ func (p GroupPaginator) NextPage(ctx context.Context) ([]Group, error) {
 	return values, nil
 }
 
-var listGroupFilters = map[string]string{}
+var listGroupFilters = map[string]string{
+	"created_at":           "Description.CreatedAt",
+	"default_project_role": "Description.DefaultProjectRole",
+	"name":                 "Description.Name",
+	"slug":                 "Description.Slug",
+}
 
 func ListGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGroup")
@@ -1947,7 +2078,12 @@ func ListGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	return nil, nil
 }
 
-var getGroupFilters = map[string]string{}
+var getGroupFilters = map[string]string{
+	"created_at":           "Description.CreatedAt",
+	"default_project_role": "Description.DefaultProjectRole",
+	"name":                 "Description.Name",
+	"slug":                 "Description.Slug",
+}
 
 func GetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGroup")
@@ -2084,7 +2220,12 @@ func (p ServiceAccountPaginator) NextPage(ctx context.Context) ([]ServiceAccount
 	return values, nil
 }
 
-var listServiceAccountFilters = map[string]string{}
+var listServiceAccountFilters = map[string]string{
+	"created_at":     "Description.CreatedAt",
+	"name":           "Description.Name",
+	"slug":           "Description.Slug",
+	"workplace_role": "Description.WorkplaceRole",
+}
 
 func ListServiceAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceAccount")
@@ -2146,7 +2287,12 @@ func ListServiceAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	return nil, nil
 }
 
-var getServiceAccountFilters = map[string]string{}
+var getServiceAccountFilters = map[string]string{
+	"created_at":     "Description.CreatedAt",
+	"name":           "Description.Name",
+	"slug":           "Description.Slug",
+	"workplace_role": "Description.WorkplaceRole",
+}
 
 func GetServiceAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceAccount")
@@ -2283,7 +2429,13 @@ func (p ServiceAccountTokenPaginator) NextPage(ctx context.Context) ([]ServiceAc
 	return values, nil
 }
 
-var listServiceAccountTokenFilters = map[string]string{}
+var listServiceAccountTokenFilters = map[string]string{
+	"created_at":   "Description.CreatedAt",
+	"expires_at":   "Description.ExpiresAt",
+	"last_seen_at": "Description.LastSeenAt",
+	"name":         "Description.Name",
+	"slug":         "Description.Slug",
+}
 
 func ListServiceAccountToken(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceAccountToken")
@@ -2345,7 +2497,13 @@ func ListServiceAccountToken(ctx context.Context, d *plugin.QueryData, _ *plugin
 	return nil, nil
 }
 
-var getServiceAccountTokenFilters = map[string]string{}
+var getServiceAccountTokenFilters = map[string]string{
+	"created_at":   "Description.CreatedAt",
+	"expires_at":   "Description.ExpiresAt",
+	"last_seen_at": "Description.LastSeenAt",
+	"name":         "Description.Name",
+	"slug":         "Description.Slug",
+}
 
 func GetServiceAccountToken(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceAccountToken")
@@ -2482,7 +2640,12 @@ func (p WorkplacePaginator) NextPage(ctx context.Context) ([]Workplace, error) {
 	return values, nil
 }
 
-var listWorkplaceFilters = map[string]string{}
+var listWorkplaceFilters = map[string]string{
+	"billing_email":  "Description.BillingEmail",
+	"id":             "Description.ID",
+	"name":           "Description.Name",
+	"security_email": "Description.SecurityEmail",
+}
 
 func ListWorkplace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWorkplace")
@@ -2544,7 +2707,12 @@ func ListWorkplace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	return nil, nil
 }
 
-var getWorkplaceFilters = map[string]string{}
+var getWorkplaceFilters = map[string]string{
+	"billing_email":  "Description.BillingEmail",
+	"id":             "Description.ID",
+	"name":           "Description.Name",
+	"security_email": "Description.SecurityEmail",
+}
 
 func GetWorkplace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWorkplace")
@@ -2681,7 +2849,12 @@ func (p WorkplaceUserPaginator) NextPage(ctx context.Context) ([]WorkplaceUser, 
 	return values, nil
 }
 
-var listWorkplaceUserFilters = map[string]string{}
+var listWorkplaceUserFilters = map[string]string{
+	"access":     "Description.Access",
+	"created_at": "Description.CreatedAt",
+	"id":         "Description.ID",
+	"user":       "Description.User",
+}
 
 func ListWorkplaceUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWorkplaceUser")
@@ -2743,7 +2916,12 @@ func ListWorkplaceUser(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	return nil, nil
 }
 
-var getWorkplaceUserFilters = map[string]string{}
+var getWorkplaceUserFilters = map[string]string{
+	"access":     "Description.Access",
+	"created_at": "Description.CreatedAt",
+	"id":         "Description.ID",
+	"user":       "Description.User",
+}
 
 func GetWorkplaceUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWorkplaceUser")
@@ -2880,7 +3058,14 @@ func (p WorkplaceRolePaginator) NextPage(ctx context.Context) ([]WorkplaceRole, 
 	return values, nil
 }
 
-var listWorkplaceRoleFilters = map[string]string{}
+var listWorkplaceRoleFilters = map[string]string{
+	"created_at":     "Description.CreatedAt",
+	"identifier":     "Description.Identifier",
+	"is_custom_role": "Description.IsCustomRole",
+	"is_inline_role": "Description.IsInlineRole",
+	"name":           "Description.Name",
+	"permissions":    "Description.Permissions",
+}
 
 func ListWorkplaceRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWorkplaceRole")
@@ -2942,7 +3127,14 @@ func ListWorkplaceRole(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	return nil, nil
 }
 
-var getWorkplaceRoleFilters = map[string]string{}
+var getWorkplaceRoleFilters = map[string]string{
+	"created_at":     "Description.CreatedAt",
+	"identifier":     "Description.Identifier",
+	"is_custom_role": "Description.IsCustomRole",
+	"is_inline_role": "Description.IsInlineRole",
+	"name":           "Description.Name",
+	"permissions":    "Description.Permissions",
+}
 
 func GetWorkplaceRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWorkplaceRole")
