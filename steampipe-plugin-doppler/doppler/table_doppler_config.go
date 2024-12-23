@@ -16,7 +16,7 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			Hydrate: opengovernance.GetConfig,
 		},
-		Columns: []*plugin.Column{
+		Columns: integrationColumns([]*plugin.Column{
 			{Name: "name", Type: proto.ColumnType_STRING, Description: "The name of the configuration."},
 			{Name: "root", Type: proto.ColumnType_BOOL, Description: "Indicates whether this is a root configuration."},
 			{Name: "inheritable", Type: proto.ColumnType_BOOL, Description: "Indicates if the configuration is inheritable."},
@@ -29,6 +29,6 @@ func tableDopplerConfig(ctx context.Context) *plugin.Table {
 			{Name: "environment", Type: proto.ColumnType_STRING, Description: "The environment associated with the configuration."},
 			{Name: "project", Type: proto.ColumnType_STRING, Description: "The project associated with the configuration."},
 			{Name: "slug", Type: proto.ColumnType_STRING, Description: "The slug identifier for the configuration."},
-		},
+		}),
 	}
 }

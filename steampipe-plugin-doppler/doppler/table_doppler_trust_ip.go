@@ -16,8 +16,8 @@ func tableDopplerTrustIP(ctx context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			Hydrate: opengovernance.GetTrustIP,
 		},
-		Columns: []*plugin.Column{
+		Columns: integrationColumns([]*plugin.Column{
 			{Name: "ip", Type: proto.ColumnType_STRING, Description: "The trusted IP address."},
-		},
+		}),
 	}
 }

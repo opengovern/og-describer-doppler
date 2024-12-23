@@ -16,7 +16,7 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			Hydrate: opengovernance.GetServiceToken,
 		},
-		Columns: []*plugin.Column{
+		Columns: integrationColumns([]*plugin.Column{
 			{Name: "name", Type: proto.ColumnType_STRING, Description: "The name of the service token."},
 			{Name: "slug", Type: proto.ColumnType_STRING, Description: "The slug identifier for the service token."},
 			{Name: "created_at", Type: proto.ColumnType_TIMESTAMP, Description: "The timestamp when the service token was created."},
@@ -24,6 +24,6 @@ func tableDopplerServiceToken(ctx context.Context) *plugin.Table {
 			{Name: "environment", Type: proto.ColumnType_STRING, Description: "The environment associated with the service token."},
 			{Name: "project", Type: proto.ColumnType_STRING, Description: "The project associated with the service token."},
 			{Name: "expires_at", Type: proto.ColumnType_TIMESTAMP, Description: "The expiration timestamp of the service token."},
-		},
+		}),
 	}
 }
