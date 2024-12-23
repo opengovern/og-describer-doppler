@@ -16,12 +16,12 @@ func tableDopplerProjectMember(ctx context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			Hydrate: opengovernance.GetProjectMember,
 		},
-		Columns: []*plugin.Column{
+		Columns: integrationColumns([]*plugin.Column{
 			{Name: "type", Type: proto.ColumnType_STRING, Description: "The type of the project member."},
 			{Name: "slug", Type: proto.ColumnType_STRING, Description: "The slug of the project member."},
 			{Name: "role", Type: proto.ColumnType_JSON, Description: "The role assigned to the project member."},
 			{Name: "access_all_environments", Type: proto.ColumnType_BOOL, Description: "Indicates whether the member has access to all environments."},
 			{Name: "environments", Type: proto.ColumnType_STRING, Description: "The environments the member has access to."},
-		},
+		}),
 	}
 }

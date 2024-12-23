@@ -16,7 +16,7 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			Hydrate: opengovernance.GetSecret,
 		},
-		Columns: []*plugin.Column{
+		Columns: integrationColumns([]*plugin.Column{
 			{Name: "raw", Type: proto.ColumnType_STRING, Description: "The raw value of the secret."},
 			{Name: "computed", Type: proto.ColumnType_STRING, Description: "The computed value of the secret."},
 			{Name: "note", Type: proto.ColumnType_STRING, Description: "A note associated with the secret."},
@@ -24,6 +24,6 @@ func tableDopplerSecret(ctx context.Context) *plugin.Table {
 			{Name: "computed_visibility", Type: proto.ColumnType_STRING, Description: "The visibility of the computed value of the secret."},
 			{Name: "raw_value_type", Type: proto.ColumnType_JSON, Description: "The type of the raw value of the secret."},
 			{Name: "computed_value_type", Type: proto.ColumnType_JSON, Description: "The type of the computed value of the secret."},
-		},
+		}),
 	}
 }

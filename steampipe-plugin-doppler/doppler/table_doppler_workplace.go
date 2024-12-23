@@ -16,11 +16,11 @@ func tableDopplerWorkplace(ctx context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			Hydrate: opengovernance.GetWorkplace,
 		},
-		Columns: []*plugin.Column{
+		Columns: integrationColumns([]*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the workplace."},
 			{Name: "name", Type: proto.ColumnType_STRING, Description: "The name of the workplace."},
 			{Name: "billing_email", Type: proto.ColumnType_STRING, Description: "The billing email associated with the workplace."},
 			{Name: "security_email", Type: proto.ColumnType_STRING, Description: "The security email associated with the workplace."},
-		},
+		}),
 	}
 }
