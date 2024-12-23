@@ -4,8 +4,6 @@
 
 package model
 
-import "time"
-
 type Metadata struct{}
 
 type ProjectListResponse struct {
@@ -34,11 +32,11 @@ type ProjectRoleGetResponse struct {
 }
 
 type ProjectRoleDescription struct {
-	Name         string    `json:"name"`
-	Permissions  []string  `json:"permissions"`
-	Identifier   string    `json:"identifier"`
-	CreatedAt    time.Time `json:"created_at"`
-	IsCustomRole bool      `json:"is_custom_role"`
+	Name         string   `json:"name"`
+	Permissions  []string `json:"permissions"`
+	Identifier   string   `json:"identifier"`
+	CreatedAt    string   `json:"created_at"`
+	IsCustomRole bool     `json:"is_custom_role"`
 }
 
 type Role struct {
@@ -63,12 +61,12 @@ type EnvironmentListResponse struct {
 }
 
 type EnvironmentDescription struct {
-	ID             string     `json:"id"`
-	Slug           string     `json:"slug"`
-	Name           string     `json:"name"`
-	InitialFetchAt *time.Time `json:"initial_fetch_at"`
-	CreatedAt      time.Time  `json:"created_at"`
-	Project        string     `json:"project"`
+	ID             string  `json:"id"`
+	Slug           string  `json:"slug"`
+	Name           string  `json:"name"`
+	InitialFetchAt *string `json:"initial_fetch_at"`
+	CreatedAt      string  `json:"created_at"`
+	Project        string  `json:"project"`
 }
 
 type ConfigListResponse struct {
@@ -77,18 +75,18 @@ type ConfigListResponse struct {
 }
 
 type ConfigDescription struct {
-	Name           string     `json:"name"`
-	Root           bool       `json:"root"`
-	Inheritable    bool       `json:"inheritable"`
-	Inheriting     bool       `json:"inheriting"`
-	Inherits       []string   `json:"inherits"`
-	Locked         bool       `json:"locked"`
-	InitialFetchAt *time.Time `json:"initial_fetch_at"`
-	LastFetchAt    *time.Time `json:"last_fetch_at"`
-	CreatedAt      time.Time  `json:"created_at"`
-	Environment    string     `json:"environment"`
-	Project        string     `json:"project"`
-	Slug           string     `json:"slug"`
+	Name           string   `json:"name"`
+	Root           bool     `json:"root"`
+	Inheritable    bool     `json:"inheritable"`
+	Inheriting     bool     `json:"inheriting"`
+	Inherits       []string `json:"inherits"`
+	Locked         bool     `json:"locked"`
+	InitialFetchAt *string  `json:"initial_fetch_at"`
+	LastFetchAt    *string  `json:"last_fetch_at"`
+	CreatedAt      string   `json:"created_at"`
+	Environment    string   `json:"environment"`
+	Project        string   `json:"project"`
+	Slug           string   `json:"slug"`
 }
 
 type ValueType struct {
@@ -148,13 +146,13 @@ type ServiceTokenListResponse struct {
 }
 
 type ServiceTokenDescription struct {
-	Name        string     `json:"name"`
-	Slug        string     `json:"slug"`
-	CreatedAt   time.Time  `json:"created_at"`
-	Config      string     `json:"config"`
-	Environment string     `json:"environment"`
-	Project     string     `json:"project"`
-	ExpiresAt   *time.Time `json:"expires_at"`
+	Name        string  `json:"name"`
+	Slug        string  `json:"slug"`
+	CreatedAt   string  `json:"created_at"`
+	Config      string  `json:"config"`
+	Environment string  `json:"environment"`
+	Project     string  `json:"project"`
+	ExpiresAt   *string `json:"expires_at"`
 }
 
 type DefaultProjectRole struct {
@@ -172,17 +170,17 @@ type GroupGetResponse struct {
 type GroupDescription struct {
 	Name               string             `json:"name"`
 	Slug               string             `json:"slug"`
-	CreatedAt          time.Time          `json:"created_at"`
+	CreatedAt          string             `json:"created_at"`
 	DefaultProjectRole DefaultProjectRole `json:"default_project_role"`
 }
 
 type WorkplaceRole struct {
-	Name         string    `json:"name"`
-	Permissions  []string  `json:"permissions"`
-	Identifier   string    `json:"identifier"`
-	CreatedAt    time.Time `json:"created_at"`
-	IsCustomRole bool      `json:"is_custom_role"`
-	IsInlineRole bool      `json:"is_inline_role"`
+	Name         string   `json:"name"`
+	Permissions  []string `json:"permissions"`
+	Identifier   string   `json:"identifier"`
+	CreatedAt    string   `json:"created_at"`
+	IsCustomRole bool     `json:"is_custom_role"`
+	IsInlineRole bool     `json:"is_inline_role"`
 }
 
 type ServiceAccountListResponse struct {
@@ -196,7 +194,7 @@ type ServiceAccountGetResponse struct {
 type ServiceAccountDescription struct {
 	Name          string        `json:"name"`
 	Slug          string        `json:"slug"`
-	CreatedAt     time.Time     `json:"created_at"`
+	CreatedAt     string        `json:"created_at"`
 	WorkplaceRole WorkplaceRole `json:"workplace_role"`
 }
 
@@ -205,11 +203,11 @@ type ServiceAccountTokenListResponse struct {
 }
 
 type ServiceAccountTokenDescription struct {
-	Name       string    `json:"name"`
-	Slug       string    `json:"slug"`
-	CreatedAt  time.Time `json:"created_at"`
-	LastSeenAt time.Time `json:"last_seen_at"`
-	ExpiresAt  time.Time `json:"expires_at"`
+	Name       string `json:"name"`
+	Slug       string `json:"slug"`
+	CreatedAt  string `json:"created_at"`
+	LastSeenAt string `json:"last_seen_at"`
+	ExpiresAt  string `json:"expires_at"`
 }
 
 type WorkplaceListResponse struct {

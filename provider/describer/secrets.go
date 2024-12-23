@@ -92,7 +92,7 @@ func processSecrets(ctx context.Context, handler *resilientbridge.ResilientBridg
 		go func(key string, secret model.SecretDescription) {
 			defer wg.Done()
 			value := models.Resource{
-				ID:   key,
+				ID:   secret.Computed,
 				Name: key,
 				Description: JSONAllFieldsMarshaller{
 					Value: secret,
