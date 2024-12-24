@@ -23,8 +23,7 @@ var (
 	pluginPath        = flag.String("pluginPath", "", "Location of the steampipe plugin")
 )
 
-// const PluginPath = "../../../../steampipe-plugin-doppler/doppler"
-const PluginPath = "C:\\Users\\ASUS\\GolandProjects\\og-describer-doppler\\steampipe-plugin-doppler\\doppler"
+const PluginPath = "../../../../steampipe-plugin-doppler/doppler"
 
 type IntegrationType struct {
 	Name            string
