@@ -59,13 +59,11 @@ func GetWorkplaceUser(ctx context.Context, handler *resilientbridge.ResilientBri
 	value := models.Resource{
 		ID:   workplaceUser.ID,
 		Name: workplaceUser.User.Username,
-		Description: JSONAllFieldsMarshaller{
-			Value: model.WorkplaceUserDescription{
-				ID:        workplaceUser.ID,
-				Access:    workplaceUser.Access,
-				CreatedAt: workplaceUser.CreatedAt,
-				User:      user,
-			},
+		Description: model.WorkplaceUserDescription{
+			ID:        workplaceUser.ID,
+			Access:    workplaceUser.Access,
+			CreatedAt: workplaceUser.CreatedAt,
+			User:      user,
 		},
 	}
 	return &value, nil
@@ -123,13 +121,11 @@ func processWorkplaceUsers(ctx context.Context, handler *resilientbridge.Resilie
 			value := models.Resource{
 				ID:   workplaceUser.ID,
 				Name: workplaceUser.User.Username,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.WorkplaceUserDescription{
-						ID:        workplaceUser.ID,
-						Access:    workplaceUser.Access,
-						CreatedAt: workplaceUser.CreatedAt,
-						User:      user,
-					},
+				Description: model.WorkplaceUserDescription{
+					ID:        workplaceUser.ID,
+					Access:    workplaceUser.Access,
+					CreatedAt: workplaceUser.CreatedAt,
+					User:      user,
 				},
 			}
 			dopplerChan <- value

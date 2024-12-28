@@ -52,15 +52,13 @@ func GetWorkplaceRole(ctx context.Context, handler *resilientbridge.ResilientBri
 	value := models.Resource{
 		ID:   workplaceRole.Identifier,
 		Name: workplaceRole.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: model.WorkplaceRoleDescription{
-				Name:         workplaceRole.Name,
-				Permissions:  workplaceRole.Permissions,
-				Identifier:   workplaceRole.Identifier,
-				CreatedAt:    workplaceRole.CreatedAt,
-				IsCustomRole: workplaceRole.IsCustomRole,
-				IsInlineRole: workplaceRole.IsInlineRole,
-			},
+		Description: model.WorkplaceRoleDescription{
+			Name:         workplaceRole.Name,
+			Permissions:  workplaceRole.Permissions,
+			Identifier:   workplaceRole.Identifier,
+			CreatedAt:    workplaceRole.CreatedAt,
+			IsCustomRole: workplaceRole.IsCustomRole,
+			IsInlineRole: workplaceRole.IsInlineRole,
 		},
 	}
 	return &value, nil
@@ -96,15 +94,13 @@ func processWorkPlaceRoles(ctx context.Context, handler *resilientbridge.Resilie
 			value := models.Resource{
 				ID:   workplaceRole.Identifier,
 				Name: workplaceRole.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.WorkplaceRoleDescription{
-						Name:         workplaceRole.Name,
-						Permissions:  workplaceRole.Permissions,
-						Identifier:   workplaceRole.Identifier,
-						CreatedAt:    workplaceRole.CreatedAt,
-						IsCustomRole: workplaceRole.IsCustomRole,
-						IsInlineRole: workplaceRole.IsInlineRole,
-					},
+				Description: model.WorkplaceRoleDescription{
+					Name:         workplaceRole.Name,
+					Permissions:  workplaceRole.Permissions,
+					Identifier:   workplaceRole.Identifier,
+					CreatedAt:    workplaceRole.CreatedAt,
+					IsCustomRole: workplaceRole.IsCustomRole,
+					IsInlineRole: workplaceRole.IsInlineRole,
 				},
 			}
 			dopplerChan <- value

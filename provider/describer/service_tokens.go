@@ -92,16 +92,14 @@ func processServiceTokens(ctx context.Context, handler *resilientbridge.Resilien
 			value := models.Resource{
 				ID:   token.Slug,
 				Name: token.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.ServiceTokenDescription{
-						Name:        token.Name,
-						Slug:        token.Slug,
-						CreatedAt:   token.CreatedAt,
-						Config:      token.Config,
-						Environment: token.Environment,
-						Project:     token.Project,
-						ExpiresAt:   token.ExpiresAt,
-					},
+				Description: model.ServiceTokenDescription{
+					Name:        token.Name,
+					Slug:        token.Slug,
+					CreatedAt:   token.CreatedAt,
+					Config:      token.Config,
+					Environment: token.Environment,
+					Project:     token.Project,
+					ExpiresAt:   token.ExpiresAt,
 				},
 			}
 			dopplerChan <- value

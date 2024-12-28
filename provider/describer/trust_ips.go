@@ -92,10 +92,8 @@ func processIPs(ctx context.Context, handler *resilientbridge.ResilientBridge, p
 			value := models.Resource{
 				ID:   ip,
 				Name: "",
-				Description: JSONAllFieldsMarshaller{
-					Value: model.TrustIPDescription{
-						IP: ip,
-					},
+				Description: model.TrustIPDescription{
+					IP: ip,
 				},
 			}
 			dopplerChan <- value

@@ -61,13 +61,11 @@ func GetServiceAccount(ctx context.Context, handler *resilientbridge.ResilientBr
 	value := models.Resource{
 		ID:   account.Slug,
 		Name: account.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: model.ServiceAccountDescription{
-				Name:          account.Name,
-				Slug:          account.Slug,
-				CreatedAt:     account.CreatedAt,
-				WorkplaceRole: workplaceRole,
-			},
+		Description: model.ServiceAccountDescription{
+			Name:          account.Name,
+			Slug:          account.Slug,
+			CreatedAt:     account.CreatedAt,
+			WorkplaceRole: workplaceRole,
 		},
 	}
 	return &value, nil
@@ -129,13 +127,11 @@ func processServiceAccounts(ctx context.Context, handler *resilientbridge.Resili
 			value := models.Resource{
 				ID:   account.Slug,
 				Name: account.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.ServiceAccountDescription{
-						Name:          account.Name,
-						Slug:          account.Slug,
-						CreatedAt:     account.CreatedAt,
-						WorkplaceRole: workplaceRole,
-					},
+				Description: model.ServiceAccountDescription{
+					Name:          account.Name,
+					Slug:          account.Slug,
+					CreatedAt:     account.CreatedAt,
+					WorkplaceRole: workplaceRole,
 				},
 			}
 			dopplerChan <- value

@@ -103,14 +103,12 @@ func processProjectMembers(ctx context.Context, handler *resilientbridge.Resilie
 			value := models.Resource{
 				ID:   projectMember.Slug,
 				Name: projectMember.Type,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.ProjectMemberDescription{
-						Type:                  projectMember.Type,
-						Slug:                  projectMember.Slug,
-						Role:                  role,
-						AccessAllEnvironments: projectMember.AccessAllEnvironments,
-						Environments:          projectMember.Environments,
-					},
+				Description: model.ProjectMemberDescription{
+					Type:                  projectMember.Type,
+					Slug:                  projectMember.Slug,
+					Role:                  role,
+					AccessAllEnvironments: projectMember.AccessAllEnvironments,
+					Environments:          projectMember.Environments,
 				},
 			}
 			dopplerChan <- value

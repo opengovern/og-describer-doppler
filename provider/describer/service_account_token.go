@@ -99,14 +99,12 @@ func processServiceAccountTokens(ctx context.Context, handler *resilientbridge.R
 			value := models.Resource{
 				ID:   token.Slug,
 				Name: token.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.ServiceAccountTokenDescription{
-						Name:       token.Name,
-						Slug:       token.Slug,
-						CreatedAt:  token.CreatedAt,
-						ExpiresAt:  token.ExpiresAt,
-						LastSeenAt: token.LastSeenAt,
-					},
+				Description: model.ServiceAccountTokenDescription{
+					Name:       token.Name,
+					Slug:       token.Slug,
+					CreatedAt:  token.CreatedAt,
+					ExpiresAt:  token.ExpiresAt,
+					LastSeenAt: token.LastSeenAt,
 				},
 			}
 			dopplerChan <- value

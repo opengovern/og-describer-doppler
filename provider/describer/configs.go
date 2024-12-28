@@ -100,21 +100,19 @@ func processConfigs(ctx context.Context, handler *resilientbridge.ResilientBridg
 			value := models.Resource{
 				ID:   config.Slug,
 				Name: config.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.ConfigDescription{
-						Name:           config.Name,
-						Slug:           config.Slug,
-						Project:        config.Project,
-						Root:           config.Root,
-						Inheritable:    config.Inheritable,
-						Inheriting:     config.Inheriting,
-						InitialFetchAt: config.InitialFetchAt,
-						Inherits:       config.Inherits,
-						Locked:         config.Locked,
-						LastFetchAt:    config.LastFetchAt,
-						CreatedAt:      config.CreatedAt,
-						Environment:    config.Environment,
-					},
+				Description: model.ConfigDescription{
+					Name:           config.Name,
+					Slug:           config.Slug,
+					Project:        config.Project,
+					Root:           config.Root,
+					Inheritable:    config.Inheritable,
+					Inheriting:     config.Inheriting,
+					InitialFetchAt: config.InitialFetchAt,
+					Inherits:       config.Inherits,
+					Locked:         config.Locked,
+					LastFetchAt:    config.LastFetchAt,
+					CreatedAt:      config.CreatedAt,
+					Environment:    config.Environment,
 				},
 			}
 			dopplerChan <- value

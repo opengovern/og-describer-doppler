@@ -73,13 +73,11 @@ func processWorkplaces(ctx context.Context, handler *resilientbridge.ResilientBr
 		value := models.Resource{
 			ID:   workplace.ID,
 			Name: workplace.Name,
-			Description: JSONAllFieldsMarshaller{
-				Value: model.WorkplaceDescription{
-					ID:            workplace.ID,
-					Name:          workplace.Name,
-					BillingEmail:  workplace.BillingEmail,
-					SecurityEmail: workplace.SecurityEmail,
-				},
+			Description: model.WorkplaceDescription{
+				ID:            workplace.ID,
+				Name:          workplace.Name,
+				BillingEmail:  workplace.BillingEmail,
+				SecurityEmail: workplace.SecurityEmail,
 			},
 		}
 		dopplerChan <- value

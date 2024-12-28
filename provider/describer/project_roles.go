@@ -52,14 +52,12 @@ func GetProjectRole(ctx context.Context, handler *resilientbridge.ResilientBridg
 	value := models.Resource{
 		ID:   projectRole.Identifier,
 		Name: projectRole.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: model.ProjectRoleDescription{
-				Name:         projectRole.Name,
-				Permissions:  projectRole.Permissions,
-				Identifier:   projectRole.Identifier,
-				CreatedAt:    projectRole.CreatedAt,
-				IsCustomRole: projectRole.IsCustomRole,
-			},
+		Description: model.ProjectRoleDescription{
+			Name:         projectRole.Name,
+			Permissions:  projectRole.Permissions,
+			Identifier:   projectRole.Identifier,
+			CreatedAt:    projectRole.CreatedAt,
+			IsCustomRole: projectRole.IsCustomRole,
 		},
 	}
 	return &value, nil
@@ -95,14 +93,12 @@ func processProjectRoles(ctx context.Context, handler *resilientbridge.Resilient
 			value := models.Resource{
 				ID:   role.Identifier,
 				Name: role.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.ProjectRoleDescription{
-						Name:         role.Name,
-						Permissions:  role.Permissions,
-						Identifier:   role.Identifier,
-						CreatedAt:    role.CreatedAt,
-						IsCustomRole: role.IsCustomRole,
-					},
+				Description: model.ProjectRoleDescription{
+					Name:         role.Name,
+					Permissions:  role.Permissions,
+					Identifier:   role.Identifier,
+					CreatedAt:    role.CreatedAt,
+					IsCustomRole: role.IsCustomRole,
 				},
 			}
 			dopplerChan <- value

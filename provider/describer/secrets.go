@@ -100,16 +100,14 @@ func processSecrets(ctx context.Context, handler *resilientbridge.ResilientBridg
 			value := models.Resource{
 				ID:   secret.Computed,
 				Name: key,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.SecretDescription{
-						Raw:                secret.Raw,
-						Computed:           secret.Computed,
-						Note:               secret.Note,
-						RawVisibility:      secret.RawVisibility,
-						ComputedVisibility: secret.ComputedVisibility,
-						RawValueType:       rawValueType,
-						ComputedValueType:  computedValueType,
-					},
+				Description: model.SecretDescription{
+					Raw:                secret.Raw,
+					Computed:           secret.Computed,
+					Note:               secret.Note,
+					RawVisibility:      secret.RawVisibility,
+					ComputedVisibility: secret.ComputedVisibility,
+					RawValueType:       rawValueType,
+					ComputedValueType:  computedValueType,
 				},
 			}
 			dopplerChan <- value

@@ -53,14 +53,12 @@ func GetProject(ctx context.Context, handler *resilientbridge.ResilientBridge, r
 	value := models.Resource{
 		ID:   project.ID,
 		Name: project.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: model.ProjectDescription{
-				ID:          project.ID,
-				Slug:        project.Slug,
-				Name:        project.Name,
-				Description: project.Description,
-				CreatedAt:   project.CreatedAt,
-			},
+		Description: model.ProjectDescription{
+			ID:          project.ID,
+			Slug:        project.Slug,
+			Name:        project.Name,
+			Description: project.Description,
+			CreatedAt:   project.CreatedAt,
 		},
 	}
 	return &value, nil
@@ -114,14 +112,12 @@ func processProjects(ctx context.Context, handler *resilientbridge.ResilientBrid
 			value := models.Resource{
 				ID:   project.ID,
 				Name: project.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.ProjectDescription{
-						ID:          project.ID,
-						Slug:        project.Slug,
-						Name:        project.Name,
-						Description: project.Description,
-						CreatedAt:   project.CreatedAt,
-					},
+				Description: model.ProjectDescription{
+					ID:          project.ID,
+					Slug:        project.Slug,
+					Name:        project.Name,
+					Description: project.Description,
+					CreatedAt:   project.CreatedAt,
 				},
 			}
 			dopplerChan <- value

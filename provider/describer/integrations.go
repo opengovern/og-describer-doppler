@@ -64,15 +64,13 @@ func GetIntegration(ctx context.Context, handler *resilientbridge.ResilientBridg
 	value := models.Resource{
 		ID:   integration.Slug,
 		Name: integration.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: model.IntegrationDescription{
-				Slug:    integration.Slug,
-				Name:    integration.Name,
-				Type:    integration.Type,
-				Kind:    integration.Kind,
-				Enabled: integration.Enabled,
-				Syncs:   syncs,
-			},
+		Description: model.IntegrationDescription{
+			Slug:    integration.Slug,
+			Name:    integration.Name,
+			Type:    integration.Type,
+			Kind:    integration.Kind,
+			Enabled: integration.Enabled,
+			Syncs:   syncs,
 		},
 	}
 	return &value, nil
@@ -119,15 +117,13 @@ func processIntegrations(ctx context.Context, handler *resilientbridge.Resilient
 			value := models.Resource{
 				ID:   integration.Slug,
 				Name: integration.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.IntegrationDescription{
-						Slug:    integration.Slug,
-						Name:    integration.Name,
-						Type:    integration.Type,
-						Kind:    integration.Kind,
-						Enabled: integration.Enabled,
-						Syncs:   syncs,
-					},
+				Description: model.IntegrationDescription{
+					Slug:    integration.Slug,
+					Name:    integration.Name,
+					Type:    integration.Type,
+					Kind:    integration.Kind,
+					Enabled: integration.Enabled,
+					Syncs:   syncs,
 				},
 			}
 			dopplerChan <- value

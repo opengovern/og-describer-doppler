@@ -56,13 +56,11 @@ func GetGroup(ctx context.Context, handler *resilientbridge.ResilientBridge, res
 	value := models.Resource{
 		ID:   group.Slug,
 		Name: group.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: model.GroupDescription{
-				Name:               group.Name,
-				Slug:               group.Slug,
-				CreatedAt:          group.CreatedAt,
-				DefaultProjectRole: defaultProjectRole,
-			},
+		Description: model.GroupDescription{
+			Name:               group.Name,
+			Slug:               group.Slug,
+			CreatedAt:          group.CreatedAt,
+			DefaultProjectRole: defaultProjectRole,
 		},
 	}
 	return &value, nil
@@ -119,13 +117,11 @@ func processGroups(ctx context.Context, handler *resilientbridge.ResilientBridge
 			value := models.Resource{
 				ID:   group.Slug,
 				Name: group.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.GroupDescription{
-						Name:               group.Name,
-						Slug:               group.Slug,
-						CreatedAt:          group.CreatedAt,
-						DefaultProjectRole: defaultProjectRole,
-					},
+				Description: model.GroupDescription{
+					Name:               group.Name,
+					Slug:               group.Slug,
+					CreatedAt:          group.CreatedAt,
+					DefaultProjectRole: defaultProjectRole,
 				},
 			}
 			dopplerChan <- value

@@ -100,15 +100,13 @@ func processEnvironments(ctx context.Context, handler *resilientbridge.Resilient
 			value := models.Resource{
 				ID:   environment.Slug,
 				Name: environment.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: model.EnvironmentDescription{
-						ID:             environment.ID,
-						Slug:           environment.Slug,
-						Name:           environment.Name,
-						CreatedAt:      environment.CreatedAt,
-						Project:        environment.Project,
-						InitialFetchAt: environment.InitialFetchAt,
-					},
+				Description: model.EnvironmentDescription{
+					ID:             environment.ID,
+					Slug:           environment.Slug,
+					Name:           environment.Name,
+					CreatedAt:      environment.CreatedAt,
+					Project:        environment.Project,
+					InitialFetchAt: environment.InitialFetchAt,
 				},
 			}
 			dopplerChan <- value
