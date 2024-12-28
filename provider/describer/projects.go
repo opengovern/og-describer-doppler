@@ -54,14 +54,20 @@ func GetProject(ctx context.Context, handler *resilientbridge.ResilientBridge, r
 		ID:   project.ID,
 		Name: project.Name,
 		Description: JSONAllFieldsMarshaller{
-			Value: project,
+			Value: model.ProjectDescription{
+				ID:          project.ID,
+				Slug:        project.Slug,
+				Name:        project.Name,
+				Description: project.Description,
+				CreatedAt:   project.CreatedAt,
+			},
 		},
 	}
 	return &value, nil
 }
 
 func processProjects(ctx context.Context, handler *resilientbridge.ResilientBridge, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var projects []model.ProjectDescription
+	var projects []model.ProjectJSON
 	var projectListResponse model.ProjectListResponse
 	baseURL := "/v3/projects"
 	page := 1
@@ -103,13 +109,19 @@ func processProjects(ctx context.Context, handler *resilientbridge.ResilientBrid
 
 	for _, project := range projects {
 		wg.Add(1)
-		go func(project model.ProjectDescription) {
+		go func(project model.ProjectJSON) {
 			defer wg.Done()
 			value := models.Resource{
 				ID:   project.ID,
 				Name: project.Name,
 				Description: JSONAllFieldsMarshaller{
-					Value: project,
+					Value: model.ProjectDescription{
+						ID:          project.ID,
+						Slug:        project.Slug,
+						Name:        project.Name,
+						Description: project.Description,
+						CreatedAt:   project.CreatedAt,
+					},
 				},
 			}
 			dopplerChan <- value
@@ -118,7 +130,7 @@ func processProjects(ctx context.Context, handler *resilientbridge.ResilientBrid
 	return nil
 }
 
-func processProject(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.ProjectDescription, error) {
+func processProject(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.ProjectJSON, error) {
 	var projectGetResponse model.ProjectGetResponse
 	baseURL := "/v3/projects/project"
 

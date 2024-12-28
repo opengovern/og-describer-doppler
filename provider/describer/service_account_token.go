@@ -52,7 +52,7 @@ func ListServiceAccountTokens(ctx context.Context, handler *resilientbridge.Resi
 }
 
 func processServiceAccountTokens(ctx context.Context, handler *resilientbridge.ResilientBridge, serviceAccountSlug string, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var tokens []model.ServiceAccountTokenDescription
+	var tokens []model.ServiceAccountTokenJSON
 	var tokenListResponse model.ServiceAccountTokenListResponse
 	baseURL := "/v3/workplace/service_accounts/service_account/service_account/"
 	page := 1
@@ -94,13 +94,19 @@ func processServiceAccountTokens(ctx context.Context, handler *resilientbridge.R
 
 	for _, token := range tokens {
 		wg.Add(1)
-		go func(token model.ServiceAccountTokenDescription) {
+		go func(token model.ServiceAccountTokenJSON) {
 			defer wg.Done()
 			value := models.Resource{
 				ID:   token.Slug,
 				Name: token.Name,
 				Description: JSONAllFieldsMarshaller{
-					Value: token,
+					Value: model.ServiceAccountTokenDescription{
+						Name:       token.Name,
+						Slug:       token.Slug,
+						CreatedAt:  token.CreatedAt,
+						ExpiresAt:  token.ExpiresAt,
+						LastSeenAt: token.LastSeenAt,
+					},
 				},
 			}
 			dopplerChan <- value

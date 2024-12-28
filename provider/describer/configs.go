@@ -52,7 +52,7 @@ func ListConfigs(ctx context.Context, handler *resilientbridge.ResilientBridge, 
 }
 
 func processConfigs(ctx context.Context, handler *resilientbridge.ResilientBridge, projectID string, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var configs []model.ConfigDescription
+	var configs []model.ConfigJSON
 	var configListResponse model.ConfigListResponse
 	baseURL := "/v3/configs"
 	page := 1
@@ -95,13 +95,26 @@ func processConfigs(ctx context.Context, handler *resilientbridge.ResilientBridg
 
 	for _, config := range configs {
 		wg.Add(1)
-		go func(config model.ConfigDescription) {
+		go func(config model.ConfigJSON) {
 			defer wg.Done()
 			value := models.Resource{
 				ID:   config.Slug,
 				Name: config.Name,
 				Description: JSONAllFieldsMarshaller{
-					Value: config,
+					Value: model.ConfigDescription{
+						Name:           config.Name,
+						Slug:           config.Slug,
+						Project:        config.Project,
+						Root:           config.Root,
+						Inheritable:    config.Inheritable,
+						Inheriting:     config.Inheriting,
+						InitialFetchAt: config.InitialFetchAt,
+						Inherits:       config.Inherits,
+						Locked:         config.Locked,
+						LastFetchAt:    config.LastFetchAt,
+						CreatedAt:      config.CreatedAt,
+						Environment:    config.Environment,
+					},
 				},
 			}
 			dopplerChan <- value

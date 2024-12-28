@@ -53,7 +53,13 @@ func GetProjectRole(ctx context.Context, handler *resilientbridge.ResilientBridg
 		ID:   projectRole.Identifier,
 		Name: projectRole.Name,
 		Description: JSONAllFieldsMarshaller{
-			Value: projectRole,
+			Value: model.ProjectRoleDescription{
+				Name:         projectRole.Name,
+				Permissions:  projectRole.Permissions,
+				Identifier:   projectRole.Identifier,
+				CreatedAt:    projectRole.CreatedAt,
+				IsCustomRole: projectRole.IsCustomRole,
+			},
 		},
 	}
 	return &value, nil
@@ -84,13 +90,19 @@ func processProjectRoles(ctx context.Context, handler *resilientbridge.Resilient
 
 	for _, role := range projectRoleListResponse.Roles {
 		wg.Add(1)
-		go func(role model.ProjectRoleDescription) {
+		go func(role model.ProjectRoleJSON) {
 			defer wg.Done()
 			value := models.Resource{
 				ID:   role.Identifier,
 				Name: role.Name,
 				Description: JSONAllFieldsMarshaller{
-					Value: role,
+					Value: model.ProjectRoleDescription{
+						Name:         role.Name,
+						Permissions:  role.Permissions,
+						Identifier:   role.Identifier,
+						CreatedAt:    role.CreatedAt,
+						IsCustomRole: role.IsCustomRole,
+					},
 				},
 			}
 			dopplerChan <- value
@@ -99,7 +111,7 @@ func processProjectRoles(ctx context.Context, handler *resilientbridge.Resilient
 	return nil
 }
 
-func processProjectRole(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.ProjectRoleDescription, error) {
+func processProjectRole(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.ProjectRoleJSON, error) {
 	var projectRoleGetResponse model.ProjectRoleGetResponse
 	baseURL := "/v3/projects/roles/role/"
 

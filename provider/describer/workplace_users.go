@@ -50,18 +50,29 @@ func GetWorkplaceUser(ctx context.Context, handler *resilientbridge.ResilientBri
 	if err != nil {
 		return nil, err
 	}
+	user := model.User{
+		Email:           workplaceUser.User.Email,
+		Username:        workplaceUser.User.Username,
+		Name:            workplaceUser.User.Name,
+		ProfileImageURL: workplaceUser.User.ProfileImageURL,
+	}
 	value := models.Resource{
 		ID:   workplaceUser.ID,
 		Name: workplaceUser.User.Username,
 		Description: JSONAllFieldsMarshaller{
-			Value: workplaceUser,
+			Value: model.WorkplaceUserDescription{
+				ID:        workplaceUser.ID,
+				Access:    workplaceUser.Access,
+				CreatedAt: workplaceUser.CreatedAt,
+				User:      user,
+			},
 		},
 	}
 	return &value, nil
 }
 
 func processWorkplaceUsers(ctx context.Context, handler *resilientbridge.ResilientBridge, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var workplaceUsers []model.WorkplaceUserDescription
+	var workplaceUsers []model.WorkplaceUserJSON
 	var workplaceUserListResponse model.WorkplaceUserListResponse
 	baseURL := "/v3/workplace/users"
 	page := 1
@@ -101,13 +112,24 @@ func processWorkplaceUsers(ctx context.Context, handler *resilientbridge.Resilie
 
 	for _, workplaceUser := range workplaceUsers {
 		wg.Add(1)
-		go func(workplaceUser model.WorkplaceUserDescription) {
+		go func(workplaceUser model.WorkplaceUserJSON) {
 			defer wg.Done()
+			user := model.User{
+				Email:           workplaceUser.User.Email,
+				Username:        workplaceUser.User.Username,
+				Name:            workplaceUser.User.Name,
+				ProfileImageURL: workplaceUser.User.ProfileImageURL,
+			}
 			value := models.Resource{
 				ID:   workplaceUser.ID,
 				Name: workplaceUser.User.Username,
 				Description: JSONAllFieldsMarshaller{
-					Value: workplaceUser,
+					Value: model.WorkplaceUserDescription{
+						ID:        workplaceUser.ID,
+						Access:    workplaceUser.Access,
+						CreatedAt: workplaceUser.CreatedAt,
+						User:      user,
+					},
 				},
 			}
 			dopplerChan <- value
@@ -116,7 +138,7 @@ func processWorkplaceUsers(ctx context.Context, handler *resilientbridge.Resilie
 	return nil
 }
 
-func processWorkPlaceUser(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.WorkplaceUserDescription, error) {
+func processWorkPlaceUser(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.WorkplaceUserJSON, error) {
 	var workplaceUserGetResponse model.WorkplaceUserGetResponse
 	baseURL := "/v3/workplace/users/"
 

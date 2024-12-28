@@ -50,18 +50,26 @@ func GetGroup(ctx context.Context, handler *resilientbridge.ResilientBridge, res
 	if err != nil {
 		return nil, err
 	}
+	defaultProjectRole := model.DefaultProjectRole{
+		Identifier: group.DefaultProjectRole.Identifier,
+	}
 	value := models.Resource{
 		ID:   group.Slug,
 		Name: group.Name,
 		Description: JSONAllFieldsMarshaller{
-			Value: group,
+			Value: model.GroupDescription{
+				Name:               group.Name,
+				Slug:               group.Slug,
+				CreatedAt:          group.CreatedAt,
+				DefaultProjectRole: defaultProjectRole,
+			},
 		},
 	}
 	return &value, nil
 }
 
 func processGroups(ctx context.Context, handler *resilientbridge.ResilientBridge, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var groups []model.GroupDescription
+	var groups []model.GroupJSON
 	var groupListResponse model.GroupListResponse
 	baseURL := "/v3/workplace/groups"
 	page := 1
@@ -103,13 +111,21 @@ func processGroups(ctx context.Context, handler *resilientbridge.ResilientBridge
 
 	for _, group := range groups {
 		wg.Add(1)
-		go func(group model.GroupDescription) {
+		go func(group model.GroupJSON) {
 			defer wg.Done()
+			defaultProjectRole := model.DefaultProjectRole{
+				Identifier: group.DefaultProjectRole.Identifier,
+			}
 			value := models.Resource{
 				ID:   group.Slug,
 				Name: group.Name,
 				Description: JSONAllFieldsMarshaller{
-					Value: group,
+					Value: model.GroupDescription{
+						Name:               group.Name,
+						Slug:               group.Slug,
+						CreatedAt:          group.CreatedAt,
+						DefaultProjectRole: defaultProjectRole,
+					},
 				},
 			}
 			dopplerChan <- value
@@ -118,7 +134,7 @@ func processGroups(ctx context.Context, handler *resilientbridge.ResilientBridge
 	return nil
 }
 
-func processGroup(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.GroupDescription, error) {
+func processGroup(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.GroupJSON, error) {
 	var groupGetResponse model.GroupGetResponse
 	baseURL := "/v3/workplace/groups/group/"
 

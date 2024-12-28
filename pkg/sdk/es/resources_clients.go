@@ -19,7 +19,7 @@ type Client struct {
 type Project struct {
 	ResourceID      string                     `json:"resource_id"`
 	PlatformID      string                     `json:"platform_id"`
-	Description     doppler.ProjectDescription `json:"description"`
+	Description     doppler.ProjectDescription `json:"Description"`
 	Metadata        doppler.Metadata           `json:"metadata"`
 	DescribedBy     string                     `json:"described_by"`
 	ResourceType    string                     `json:"resource_type"`
@@ -230,7 +230,7 @@ func GetProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 type ProjectRole struct {
 	ResourceID      string                         `json:"resource_id"`
 	PlatformID      string                         `json:"platform_id"`
-	Description     doppler.ProjectRoleDescription `json:"description"`
+	Description     doppler.ProjectRoleDescription `json:"Description"`
 	Metadata        doppler.Metadata               `json:"metadata"`
 	DescribedBy     string                         `json:"described_by"`
 	ResourceType    string                         `json:"resource_type"`
@@ -441,7 +441,7 @@ func GetProjectRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 type ProjectMember struct {
 	ResourceID      string                           `json:"resource_id"`
 	PlatformID      string                           `json:"platform_id"`
-	Description     doppler.ProjectMemberDescription `json:"description"`
+	Description     doppler.ProjectMemberDescription `json:"Description"`
 	Metadata        doppler.Metadata                 `json:"metadata"`
 	DescribedBy     string                           `json:"described_by"`
 	ResourceType    string                           `json:"resource_type"`
@@ -652,7 +652,7 @@ func GetProjectMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 type Environment struct {
 	ResourceID      string                         `json:"resource_id"`
 	PlatformID      string                         `json:"platform_id"`
-	Description     doppler.EnvironmentDescription `json:"description"`
+	Description     doppler.EnvironmentDescription `json:"Description"`
 	Metadata        doppler.Metadata               `json:"metadata"`
 	DescribedBy     string                         `json:"described_by"`
 	ResourceType    string                         `json:"resource_type"`
@@ -865,7 +865,7 @@ func GetEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 type Config struct {
 	ResourceID      string                    `json:"resource_id"`
 	PlatformID      string                    `json:"platform_id"`
-	Description     doppler.ConfigDescription `json:"description"`
+	Description     doppler.ConfigDescription `json:"Description"`
 	Metadata        doppler.Metadata          `json:"metadata"`
 	DescribedBy     string                    `json:"described_by"`
 	ResourceType    string                    `json:"resource_type"`
@@ -1090,7 +1090,7 @@ func GetConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 type Secret struct {
 	ResourceID      string                    `json:"resource_id"`
 	PlatformID      string                    `json:"platform_id"`
-	Description     doppler.SecretDescription `json:"description"`
+	Description     doppler.SecretDescription `json:"Description"`
 	Metadata        doppler.Metadata          `json:"metadata"`
 	DescribedBy     string                    `json:"described_by"`
 	ResourceType    string                    `json:"resource_type"`
@@ -1305,7 +1305,7 @@ func GetSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 type Integration struct {
 	ResourceID      string                         `json:"resource_id"`
 	PlatformID      string                         `json:"platform_id"`
-	Description     doppler.IntegrationDescription `json:"description"`
+	Description     doppler.IntegrationDescription `json:"Description"`
 	Metadata        doppler.Metadata               `json:"metadata"`
 	DescribedBy     string                         `json:"described_by"`
 	ResourceType    string                         `json:"resource_type"`
@@ -1518,7 +1518,7 @@ func GetIntegration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 type TrustIP struct {
 	ResourceID      string                     `json:"resource_id"`
 	PlatformID      string                     `json:"platform_id"`
-	Description     doppler.TrustIPDescription `json:"description"`
+	Description     doppler.TrustIPDescription `json:"Description"`
 	Metadata        doppler.Metadata           `json:"metadata"`
 	DescribedBy     string                     `json:"described_by"`
 	ResourceType    string                     `json:"resource_type"`
@@ -1721,7 +1721,7 @@ func GetTrustIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 type ServiceToken struct {
 	ResourceID      string                          `json:"resource_id"`
 	PlatformID      string                          `json:"platform_id"`
-	Description     doppler.ServiceTokenDescription `json:"description"`
+	Description     doppler.ServiceTokenDescription `json:"Description"`
 	Metadata        doppler.Metadata                `json:"metadata"`
 	DescribedBy     string                          `json:"described_by"`
 	ResourceType    string                          `json:"resource_type"`
@@ -1936,7 +1936,7 @@ func GetServiceToken(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 type Group struct {
 	ResourceID      string                   `json:"resource_id"`
 	PlatformID      string                   `json:"platform_id"`
-	Description     doppler.GroupDescription `json:"description"`
+	Description     doppler.GroupDescription `json:"Description"`
 	Metadata        doppler.Metadata         `json:"metadata"`
 	DescribedBy     string                   `json:"described_by"`
 	ResourceType    string                   `json:"resource_type"`
@@ -2145,7 +2145,7 @@ func GetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 type ServiceAccount struct {
 	ResourceID      string                            `json:"resource_id"`
 	PlatformID      string                            `json:"platform_id"`
-	Description     doppler.ServiceAccountDescription `json:"description"`
+	Description     doppler.ServiceAccountDescription `json:"Description"`
 	Metadata        doppler.Metadata                  `json:"metadata"`
 	DescribedBy     string                            `json:"described_by"`
 	ResourceType    string                            `json:"resource_type"`
@@ -2354,7 +2354,7 @@ func GetServiceAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 type ServiceAccountToken struct {
 	ResourceID      string                                 `json:"resource_id"`
 	PlatformID      string                                 `json:"platform_id"`
-	Description     doppler.ServiceAccountTokenDescription `json:"description"`
+	Description     doppler.ServiceAccountTokenDescription `json:"Description"`
 	Metadata        doppler.Metadata                       `json:"metadata"`
 	DescribedBy     string                                 `json:"described_by"`
 	ResourceType    string                                 `json:"resource_type"`
@@ -2565,7 +2565,7 @@ func GetServiceAccountToken(ctx context.Context, d *plugin.QueryData, _ *plugin.
 type Workplace struct {
 	ResourceID      string                       `json:"resource_id"`
 	PlatformID      string                       `json:"platform_id"`
-	Description     doppler.WorkplaceDescription `json:"description"`
+	Description     doppler.WorkplaceDescription `json:"Description"`
 	Metadata        doppler.Metadata             `json:"metadata"`
 	DescribedBy     string                       `json:"described_by"`
 	ResourceType    string                       `json:"resource_type"`
@@ -2774,7 +2774,7 @@ func GetWorkplace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 type WorkplaceUser struct {
 	ResourceID      string                           `json:"resource_id"`
 	PlatformID      string                           `json:"platform_id"`
-	Description     doppler.WorkplaceUserDescription `json:"description"`
+	Description     doppler.WorkplaceUserDescription `json:"Description"`
 	Metadata        doppler.Metadata                 `json:"metadata"`
 	DescribedBy     string                           `json:"described_by"`
 	ResourceType    string                           `json:"resource_type"`
@@ -2983,7 +2983,7 @@ func GetWorkplaceUser(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 type WorkplaceRole struct {
 	ResourceID      string                           `json:"resource_id"`
 	PlatformID      string                           `json:"platform_id"`
-	Description     doppler.WorkplaceRoleDescription `json:"description"`
+	Description     doppler.WorkplaceRoleDescription `json:"Description"`
 	Metadata        doppler.Metadata                 `json:"metadata"`
 	DescribedBy     string                           `json:"described_by"`
 	ResourceType    string                           `json:"resource_type"`

@@ -50,11 +50,29 @@ func GetIntegration(ctx context.Context, handler *resilientbridge.ResilientBridg
 	if err != nil {
 		return nil, err
 	}
+	var syncs []model.Sync
+	for _, syncObject := range integration.Syncs {
+		syncs = append(syncs, model.Sync{
+			Slug:         syncObject.Slug,
+			Enabled:      syncObject.Enabled,
+			LastSyncedAt: syncObject.LastSyncedAt,
+			Project:      syncObject.Project,
+			Config:       syncObject.Config,
+			Integration:  syncObject.Integration,
+		})
+	}
 	value := models.Resource{
 		ID:   integration.Slug,
 		Name: integration.Name,
 		Description: JSONAllFieldsMarshaller{
-			Value: integration,
+			Value: model.IntegrationDescription{
+				Slug:    integration.Slug,
+				Name:    integration.Name,
+				Type:    integration.Type,
+				Kind:    integration.Kind,
+				Enabled: integration.Enabled,
+				Syncs:   syncs,
+			},
 		},
 	}
 	return &value, nil
@@ -85,13 +103,31 @@ func processIntegrations(ctx context.Context, handler *resilientbridge.Resilient
 
 	for _, integration := range integrationListResponse.Integrations {
 		wg.Add(1)
-		go func(integration model.IntegrationDescription) {
+		go func(integration model.IntegrationJSON) {
 			defer wg.Done()
+			var syncs []model.Sync
+			for _, syncObject := range integration.Syncs {
+				syncs = append(syncs, model.Sync{
+					Slug:         syncObject.Slug,
+					Enabled:      syncObject.Enabled,
+					LastSyncedAt: syncObject.LastSyncedAt,
+					Project:      syncObject.Project,
+					Config:       syncObject.Config,
+					Integration:  syncObject.Integration,
+				})
+			}
 			value := models.Resource{
 				ID:   integration.Slug,
 				Name: integration.Name,
 				Description: JSONAllFieldsMarshaller{
-					Value: integration,
+					Value: model.IntegrationDescription{
+						Slug:    integration.Slug,
+						Name:    integration.Name,
+						Type:    integration.Type,
+						Kind:    integration.Kind,
+						Enabled: integration.Enabled,
+						Syncs:   syncs,
+					},
 				},
 			}
 			dopplerChan <- value
@@ -100,7 +136,7 @@ func processIntegrations(ctx context.Context, handler *resilientbridge.Resilient
 	return nil
 }
 
-func processIntegration(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.IntegrationDescription, error) {
+func processIntegration(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.IntegrationJSON, error) {
 	var integrationGetResponse model.IntegrationGetResponse
 	baseURL := "/v3/integrations/integration"
 

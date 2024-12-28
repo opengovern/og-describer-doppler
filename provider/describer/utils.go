@@ -8,8 +8,8 @@ import (
 	"net/url"
 )
 
-func getProjects(handler *resilientbridge.ResilientBridge) ([]model.ProjectDescription, error) {
-	var projects []model.ProjectDescription
+func getProjects(handler *resilientbridge.ResilientBridge) ([]model.ProjectJSON, error) {
+	var projects []model.ProjectJSON
 	var projectListResponse model.ProjectListResponse
 	baseURL := "/v3/projects"
 	page := 1
@@ -52,8 +52,8 @@ func getProjects(handler *resilientbridge.ResilientBridge) ([]model.ProjectDescr
 	return projects, nil
 }
 
-func getConfigs(handler *resilientbridge.ResilientBridge, projectID string) ([]model.ConfigDescription, error) {
-	var configs []model.ConfigDescription
+func getConfigs(handler *resilientbridge.ResilientBridge, projectID string) ([]model.ConfigJSON, error) {
+	var configs []model.ConfigJSON
 	var configListResponse model.ConfigListResponse
 	baseURL := "/v3/configs"
 	page := 1
@@ -97,8 +97,8 @@ func getConfigs(handler *resilientbridge.ResilientBridge, projectID string) ([]m
 	return configs, nil
 }
 
-func getServiceAccounts(handler *resilientbridge.ResilientBridge) ([]model.ServiceAccountDescription, error) {
-	var accounts []model.ServiceAccountDescription
+func getServiceAccounts(handler *resilientbridge.ResilientBridge) ([]model.ServiceAccountJSON, error) {
+	var accounts []model.ServiceAccountJSON
 	var accountListResponse model.ServiceAccountListResponse
 	baseURL := "/v3/workplace/service_accounts"
 	page := 1

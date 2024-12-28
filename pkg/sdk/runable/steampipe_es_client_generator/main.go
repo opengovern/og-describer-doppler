@@ -23,8 +23,7 @@ var (
 	pluginPath        = flag.String("pluginPath", "", "Location of the steampipe plugin")
 )
 
-// const PluginPath = "../../../../steampipe-plugin-doppler/doppler"
-const PluginPath = "C:\\Users\\ASUS\\GolandProjects\\og-describer-doppler\\steampipe-plugin-doppler\\doppler"
+const PluginPath = "../../../../steampipe-plugin-doppler/doppler"
 
 type IntegrationType struct {
 	Name            string
@@ -82,7 +81,7 @@ func main() {
 type {{ .Name }} struct {
 	ResourceID string ` + "`json:\"resource_id\"`" + `
 	PlatformID string ` + "`json:\"platform_id\"`" + `
-	Description   {{ .IntegrationType }}.{{ .Name }}Description 	` + "`json:\"description\"`" + `
+	Description   {{ .IntegrationType }}.{{ .Name }}Description 	` + "`json:\"Description\"`" + `
 	Metadata      {{ .IntegrationType }}.Metadata 					` + "`json:\"metadata\"`" + `
 	DescribedBy 	   string ` + "`json:\"described_by\"`" + `
 	ResourceType       string ` + "`json:\"resource_type\"`" + `
