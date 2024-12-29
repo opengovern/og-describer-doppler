@@ -87,13 +87,19 @@ func processServiceTokens(ctx context.Context, handler *resilientbridge.Resilien
 
 	for _, token := range tokenListResponse.Tokens {
 		wg.Add(1)
-		go func(token model.ServiceTokenDescription) {
+		go func(token model.ServiceTokenJSON) {
 			defer wg.Done()
 			value := models.Resource{
 				ID:   token.Slug,
 				Name: token.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: token,
+				Description: model.ServiceTokenDescription{
+					Name:        token.Name,
+					Slug:        token.Slug,
+					CreatedAt:   token.CreatedAt,
+					Config:      token.Config,
+					Environment: token.Environment,
+					Project:     token.Project,
+					ExpiresAt:   token.ExpiresAt,
 				},
 			}
 			dopplerChan <- value

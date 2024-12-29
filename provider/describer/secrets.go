@@ -89,13 +89,25 @@ func processSecrets(ctx context.Context, handler *resilientbridge.ResilientBridg
 
 	for key, secret := range secretListResponse.Secrets {
 		wg.Add(1)
-		go func(key string, secret model.SecretDescription) {
+		go func(key string, secret model.SecretJSON) {
 			defer wg.Done()
+			rawValueType := model.ValueType{
+				Type: secret.RawValueType.Type,
+			}
+			computedValueType := model.ValueType{
+				Type: secret.ComputedValueType.Type,
+			}
 			value := models.Resource{
 				ID:   secret.Computed,
 				Name: key,
-				Description: JSONAllFieldsMarshaller{
-					Value: secret,
+				Description: model.SecretDescription{
+					Raw:                secret.Raw,
+					Computed:           secret.Computed,
+					Note:               secret.Note,
+					RawVisibility:      secret.RawVisibility,
+					ComputedVisibility: secret.ComputedVisibility,
+					RawValueType:       rawValueType,
+					ComputedValueType:  computedValueType,
 				},
 			}
 			dopplerChan <- value

@@ -50,18 +50,29 @@ func GetServiceAccount(ctx context.Context, handler *resilientbridge.ResilientBr
 	if err != nil {
 		return nil, err
 	}
+	workplaceRole := model.WorkplaceRole{
+		Name:         account.WorkplaceRole.Name,
+		Permissions:  account.WorkplaceRole.Permissions,
+		IsCustomRole: account.WorkplaceRole.IsCustomRole,
+		IsInlineRole: account.WorkplaceRole.IsInlineRole,
+		Identifier:   account.WorkplaceRole.Identifier,
+		CreatedAt:    account.WorkplaceRole.CreatedAt,
+	}
 	value := models.Resource{
 		ID:   account.Slug,
 		Name: account.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: account,
+		Description: model.ServiceAccountDescription{
+			Name:          account.Name,
+			Slug:          account.Slug,
+			CreatedAt:     account.CreatedAt,
+			WorkplaceRole: workplaceRole,
 		},
 	}
 	return &value, nil
 }
 
 func processServiceAccounts(ctx context.Context, handler *resilientbridge.ResilientBridge, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var accounts []model.ServiceAccountDescription
+	var accounts []model.ServiceAccountJSON
 	var accountListResponse model.ServiceAccountListResponse
 	baseURL := "/v3/workplace/service_accounts"
 	page := 1
@@ -103,13 +114,24 @@ func processServiceAccounts(ctx context.Context, handler *resilientbridge.Resili
 
 	for _, account := range accounts {
 		wg.Add(1)
-		go func(account model.ServiceAccountDescription) {
+		go func(account model.ServiceAccountJSON) {
 			defer wg.Done()
+			workplaceRole := model.WorkplaceRole{
+				Name:         account.WorkplaceRole.Name,
+				Permissions:  account.WorkplaceRole.Permissions,
+				IsCustomRole: account.WorkplaceRole.IsCustomRole,
+				IsInlineRole: account.WorkplaceRole.IsInlineRole,
+				Identifier:   account.WorkplaceRole.Identifier,
+				CreatedAt:    account.WorkplaceRole.CreatedAt,
+			}
 			value := models.Resource{
 				ID:   account.Slug,
 				Name: account.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: account,
+				Description: model.ServiceAccountDescription{
+					Name:          account.Name,
+					Slug:          account.Slug,
+					CreatedAt:     account.CreatedAt,
+					WorkplaceRole: workplaceRole,
 				},
 			}
 			dopplerChan <- value
@@ -118,7 +140,7 @@ func processServiceAccounts(ctx context.Context, handler *resilientbridge.Resili
 	return nil
 }
 
-func processServiceAccount(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.ServiceAccountDescription, error) {
+func processServiceAccount(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.ServiceAccountJSON, error) {
 	var accountGetResponse model.ServiceAccountGetResponse
 	baseURL := "/v3/workplace/service_accounts/service_account/"
 

@@ -52,8 +52,13 @@ func GetWorkplaceRole(ctx context.Context, handler *resilientbridge.ResilientBri
 	value := models.Resource{
 		ID:   workplaceRole.Identifier,
 		Name: workplaceRole.Name,
-		Description: JSONAllFieldsMarshaller{
-			Value: workplaceRole,
+		Description: model.WorkplaceRoleDescription{
+			Name:         workplaceRole.Name,
+			Permissions:  workplaceRole.Permissions,
+			Identifier:   workplaceRole.Identifier,
+			CreatedAt:    workplaceRole.CreatedAt,
+			IsCustomRole: workplaceRole.IsCustomRole,
+			IsInlineRole: workplaceRole.IsInlineRole,
 		},
 	}
 	return &value, nil
@@ -84,13 +89,18 @@ func processWorkPlaceRoles(ctx context.Context, handler *resilientbridge.Resilie
 
 	for _, workplaceRole := range workplaceRoleListResponse.Roles {
 		wg.Add(1)
-		go func(workplaceRole model.WorkplaceRoleDescription) {
+		go func(workplaceRole model.WorkplaceRoleJSON) {
 			defer wg.Done()
 			value := models.Resource{
 				ID:   workplaceRole.Identifier,
 				Name: workplaceRole.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: workplaceRole,
+				Description: model.WorkplaceRoleDescription{
+					Name:         workplaceRole.Name,
+					Permissions:  workplaceRole.Permissions,
+					Identifier:   workplaceRole.Identifier,
+					CreatedAt:    workplaceRole.CreatedAt,
+					IsCustomRole: workplaceRole.IsCustomRole,
+					IsInlineRole: workplaceRole.IsInlineRole,
 				},
 			}
 			dopplerChan <- value
@@ -99,7 +109,7 @@ func processWorkPlaceRoles(ctx context.Context, handler *resilientbridge.Resilie
 	return nil
 }
 
-func processWorkplaceRole(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.WorkplaceRoleDescription, error) {
+func processWorkplaceRole(ctx context.Context, handler *resilientbridge.ResilientBridge, resourceID string) (*model.WorkplaceRoleJSON, error) {
 	var workplaceRoleGetResponse model.WorkplaceRoleGetResponse
 	baseURL := "/v3/workplace/roles/role/"
 

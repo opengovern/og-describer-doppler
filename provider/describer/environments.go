@@ -52,7 +52,7 @@ func ListEnvironments(ctx context.Context, handler *resilientbridge.ResilientBri
 }
 
 func processEnvironments(ctx context.Context, handler *resilientbridge.ResilientBridge, projectID string, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var environments []model.EnvironmentDescription
+	var environments []model.EnvironmentJSON
 	var environmentListResponse model.EnvironmentListResponse
 	baseURL := "/v3/environments"
 	page := 1
@@ -95,13 +95,18 @@ func processEnvironments(ctx context.Context, handler *resilientbridge.Resilient
 
 	for _, environment := range environments {
 		wg.Add(1)
-		go func(environment model.EnvironmentDescription) {
+		go func(environment model.EnvironmentJSON) {
 			defer wg.Done()
 			value := models.Resource{
 				ID:   environment.Slug,
 				Name: environment.Name,
-				Description: JSONAllFieldsMarshaller{
-					Value: environment,
+				Description: model.EnvironmentDescription{
+					ID:             environment.ID,
+					Slug:           environment.Slug,
+					Name:           environment.Name,
+					CreatedAt:      environment.CreatedAt,
+					Project:        environment.Project,
+					InitialFetchAt: environment.InitialFetchAt,
 				},
 			}
 			dopplerChan <- value

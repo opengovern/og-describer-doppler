@@ -52,7 +52,7 @@ func ListProjectMembers(ctx context.Context, handler *resilientbridge.ResilientB
 }
 
 func processProjectMembers(ctx context.Context, handler *resilientbridge.ResilientBridge, projectID string, dopplerChan chan<- models.Resource, wg *sync.WaitGroup) error {
-	var projectMembers []model.ProjectMemberDescription
+	var projectMembers []model.ProjectMemberJSON
 	var projectMemberListResponse model.ProjectMemberListResponse
 	baseURL := "/v3/projects/project/members"
 	page := 1
@@ -95,13 +95,20 @@ func processProjectMembers(ctx context.Context, handler *resilientbridge.Resilie
 
 	for _, projectMember := range projectMembers {
 		wg.Add(1)
-		go func(projectMember model.ProjectMemberDescription) {
+		go func(projectMember model.ProjectMemberJSON) {
 			defer wg.Done()
+			role := model.Role{
+				Identifier: projectMember.Role.Identifier,
+			}
 			value := models.Resource{
 				ID:   projectMember.Slug,
 				Name: projectMember.Type,
-				Description: JSONAllFieldsMarshaller{
-					Value: projectMember,
+				Description: model.ProjectMemberDescription{
+					Type:                  projectMember.Type,
+					Slug:                  projectMember.Slug,
+					Role:                  role,
+					AccessAllEnvironments: projectMember.AccessAllEnvironments,
+					Environments:          projectMember.Environments,
 				},
 			}
 			dopplerChan <- value

@@ -7,15 +7,15 @@ package model
 type Metadata struct{}
 
 type ProjectListResponse struct {
-	Page     int                  `json:"page"`
-	Projects []ProjectDescription `json:"projects"`
+	Page     int           `json:"page"`
+	Projects []ProjectJSON `json:"projects"`
 }
 
 type ProjectGetResponse struct {
-	Project ProjectDescription `json:"project"`
+	Project ProjectJSON `json:"project"`
 }
 
-type ProjectDescription struct {
+type ProjectJSON struct {
 	ID          string `json:"id"`
 	Slug        string `json:"slug"`
 	Name        string `json:"name"`
@@ -23,15 +23,23 @@ type ProjectDescription struct {
 	CreatedAt   string `json:"created_at"`
 }
 
+type ProjectDescription struct {
+	ID          string
+	Slug        string
+	Name        string
+	Description string
+	CreatedAt   string
+}
+
 type ProjectRoleListResponse struct {
-	Roles []ProjectRoleDescription `json:"roles"`
+	Roles []ProjectRoleJSON `json:"roles"`
 }
 
 type ProjectRoleGetResponse struct {
-	Role ProjectRoleDescription `json:"role"`
+	Role ProjectRoleJSON `json:"role"`
 }
 
-type ProjectRoleDescription struct {
+type ProjectRoleJSON struct {
 	Name         string   `json:"name"`
 	Permissions  []string `json:"permissions"`
 	Identifier   string   `json:"identifier"`
@@ -39,28 +47,48 @@ type ProjectRoleDescription struct {
 	IsCustomRole bool     `json:"is_custom_role"`
 }
 
-type Role struct {
+type ProjectRoleDescription struct {
+	Name         string
+	Permissions  []string
+	Identifier   string
+	CreatedAt    string
+	IsCustomRole bool
+}
+
+type RoleJSON struct {
 	Identifier string `json:"identifier"`
 }
 
+type Role struct {
+	Identifier string
+}
+
 type ProjectMemberListResponse struct {
-	Members []ProjectMemberDescription `json:"members"`
+	Members []ProjectMemberJSON `json:"members"`
+}
+
+type ProjectMemberJSON struct {
+	Type                  string   `json:"type"`
+	Slug                  string   `json:"slug"`
+	Role                  RoleJSON `json:"role"`
+	AccessAllEnvironments bool     `json:"access_all_environments"`
+	Environments          *string  `json:"environments"`
 }
 
 type ProjectMemberDescription struct {
-	Type                  string  `json:"type"`
-	Slug                  string  `json:"slug"`
-	Role                  Role    `json:"role"`
-	AccessAllEnvironments bool    `json:"access_all_environments"`
-	Environments          *string `json:"environments"`
+	Type                  string
+	Slug                  string
+	Role                  Role
+	AccessAllEnvironments bool
+	Environments          *string
 }
 
 type EnvironmentListResponse struct {
-	Environments []EnvironmentDescription `json:"environments"`
-	Page         int                      `json:"page"`
+	Environments []EnvironmentJSON `json:"environments"`
+	Page         int               `json:"page"`
 }
 
-type EnvironmentDescription struct {
+type EnvironmentJSON struct {
 	ID             string  `json:"id"`
 	Slug           string  `json:"slug"`
 	Name           string  `json:"name"`
@@ -69,12 +97,21 @@ type EnvironmentDescription struct {
 	Project        string  `json:"project"`
 }
 
-type ConfigListResponse struct {
-	Configs []ConfigDescription `json:"configs"`
-	Page    int                 `json:"page"`
+type EnvironmentDescription struct {
+	ID             string
+	Slug           string
+	Name           string
+	InitialFetchAt *string
+	CreatedAt      string
+	Project        string
 }
 
-type ConfigDescription struct {
+type ConfigListResponse struct {
+	Configs []ConfigJSON `json:"configs"`
+	Page    int          `json:"page"`
+}
+
+type ConfigJSON struct {
 	Name           string   `json:"name"`
 	Root           bool     `json:"root"`
 	Inheritable    bool     `json:"inheritable"`
@@ -89,25 +126,54 @@ type ConfigDescription struct {
 	Slug           string   `json:"slug"`
 }
 
-type ValueType struct {
+type ConfigDescription struct {
+	Name           string
+	Root           bool
+	Inheritable    bool
+	Inheriting     bool
+	Inherits       []string
+	Locked         bool
+	InitialFetchAt *string
+	LastFetchAt    *string
+	CreatedAt      string
+	Environment    string
+	Project        string
+	Slug           string
+}
+
+type ValueTypeJSON struct {
 	Type string `json:"type"`
 }
 
+type ValueType struct {
+	Type string
+}
+
 type SecretListResponse struct {
-	Secrets map[string]SecretDescription `json:"secrets"`
+	Secrets map[string]SecretJSON `json:"secrets"`
+}
+
+type SecretJSON struct {
+	Raw                string        `json:"raw"`
+	Computed           string        `json:"computed"`
+	Note               string        `json:"note"`
+	RawVisibility      string        `json:"rawVisibility"`
+	ComputedVisibility string        `json:"computedVisibility"`
+	RawValueType       ValueTypeJSON `json:"rawValueType"`
+	ComputedValueType  ValueTypeJSON `json:"computedValueType"`
 }
 
 type SecretDescription struct {
-	Raw                string    `json:"raw"`
-	Computed           string    `json:"computed"`
-	Note               string    `json:"note"`
-	RawVisibility      string    `json:"rawVisibility"`
-	ComputedVisibility string    `json:"computedVisibility"`
-	RawValueType       ValueType `json:"rawValueType"`
-	ComputedValueType  ValueType `json:"computedValueType"`
+	Raw                string
+	Computed           string
+	Note               string
+	RawVisibility      string
+	ComputedVisibility string
+	RawValueType       ValueType
+	ComputedValueType  ValueType
 }
 
-type Sync struct {
+type SyncJSON struct {
 	Slug         string `json:"slug"`
 	Enabled      bool   `json:"enabled"`
 	LastSyncedAt string `json:"lastSyncedAt"`
@@ -116,21 +182,39 @@ type Sync struct {
 	Integration  string `json:"integration"`
 }
 
+type Sync struct {
+	Slug         string
+	Enabled      bool
+	LastSyncedAt string
+	Project      string
+	Config       string
+	Integration  string
+}
+
 type IntegrationListResponse struct {
-	Integrations []IntegrationDescription `json:"integrations"`
+	Integrations []IntegrationJSON `json:"integrations"`
 }
 
 type IntegrationGetResponse struct {
-	Integration IntegrationDescription `json:"integration"`
+	Integration IntegrationJSON `json:"integration"`
+}
+
+type IntegrationJSON struct {
+	Slug    string     `json:"slug"`
+	Name    string     `json:"name"`
+	Type    string     `json:"type"`
+	Kind    string     `json:"kind"`
+	Enabled bool       `json:"enabled"`
+	Syncs   []SyncJSON `json:"syncs,omitempty"`
 }
 
 type IntegrationDescription struct {
-	Slug    string `json:"slug"`
-	Name    string `json:"name"`
-	Type    string `json:"type"`
-	Kind    string `json:"kind"`
-	Enabled bool   `json:"enabled"`
-	Syncs   []Sync `json:"syncs,omitempty"`
+	Slug    string
+	Name    string
+	Type    string
+	Kind    string
+	Enabled bool
+	Syncs   []Sync
 }
 
 type TrustIPListResponse struct {
@@ -138,14 +222,14 @@ type TrustIPListResponse struct {
 }
 
 type TrustIPDescription struct {
-	IP string `json:"ip"`
+	IP string
 }
 
 type ServiceTokenListResponse struct {
-	Tokens []ServiceTokenDescription `json:"tokens"`
+	Tokens []ServiceTokenJSON `json:"tokens"`
 }
 
-type ServiceTokenDescription struct {
+type ServiceTokenJSON struct {
 	Name        string  `json:"name"`
 	Slug        string  `json:"slug"`
 	CreatedAt   string  `json:"created_at"`
@@ -155,26 +239,47 @@ type ServiceTokenDescription struct {
 	ExpiresAt   *string `json:"expires_at"`
 }
 
-type DefaultProjectRole struct {
+type ServiceTokenDescription struct {
+	Name        string
+	Slug        string
+	CreatedAt   string
+	Config      string
+	Environment string
+	Project     string
+	ExpiresAt   *string
+}
+
+type DefaultProjectRoleJSON struct {
 	Identifier string `json:"identifier"`
 }
 
+type DefaultProjectRole struct {
+	Identifier string
+}
+
 type GroupListResponse struct {
-	Groups []GroupDescription `json:"groups"`
+	Groups []GroupJSON `json:"groups"`
 }
 
 type GroupGetResponse struct {
-	Group GroupDescription `json:"group"`
+	Group GroupJSON `json:"group"`
+}
+
+type GroupJSON struct {
+	Name               string                 `json:"name"`
+	Slug               string                 `json:"slug"`
+	CreatedAt          string                 `json:"created_at"`
+	DefaultProjectRole DefaultProjectRoleJSON `json:"default_project_role"`
 }
 
 type GroupDescription struct {
-	Name               string             `json:"name"`
-	Slug               string             `json:"slug"`
-	CreatedAt          string             `json:"created_at"`
-	DefaultProjectRole DefaultProjectRole `json:"default_project_role"`
+	Name               string
+	Slug               string
+	CreatedAt          string
+	DefaultProjectRole DefaultProjectRole
 }
 
-type WorkplaceRole struct {
+type WorkplaceRoleJSON struct {
 	Name         string   `json:"name"`
 	Permissions  []string `json:"permissions"`
 	Identifier   string   `json:"identifier"`
@@ -183,26 +288,42 @@ type WorkplaceRole struct {
 	IsInlineRole bool     `json:"is_inline_role"`
 }
 
+type WorkplaceRole struct {
+	Name         string
+	Permissions  []string
+	Identifier   string
+	CreatedAt    string
+	IsCustomRole bool
+	IsInlineRole bool
+}
+
 type ServiceAccountListResponse struct {
-	ServiceAccounts []ServiceAccountDescription `json:"service_accounts"`
+	ServiceAccounts []ServiceAccountJSON `json:"service_accounts"`
 }
 
 type ServiceAccountGetResponse struct {
-	ServiceAccount ServiceAccountDescription `json:"service_account"`
+	ServiceAccount ServiceAccountJSON `json:"service_account"`
+}
+
+type ServiceAccountJSON struct {
+	Name          string            `json:"name"`
+	Slug          string            `json:"slug"`
+	CreatedAt     string            `json:"created_at"`
+	WorkplaceRole WorkplaceRoleJSON `json:"workplace_role"`
 }
 
 type ServiceAccountDescription struct {
-	Name          string        `json:"name"`
-	Slug          string        `json:"slug"`
-	CreatedAt     string        `json:"created_at"`
-	WorkplaceRole WorkplaceRole `json:"workplace_role"`
+	Name          string
+	Slug          string
+	CreatedAt     string
+	WorkplaceRole WorkplaceRole
 }
 
 type ServiceAccountTokenListResponse struct {
-	APITokens []ServiceAccountTokenDescription `json:"api_tokens"`
+	APITokens []ServiceAccountTokenJSON `json:"api_tokens"`
 }
 
-type ServiceAccountTokenDescription struct {
+type ServiceAccountTokenJSON struct {
 	Name       string `json:"name"`
 	Slug       string `json:"slug"`
 	CreatedAt  string `json:"created_at"`
@@ -210,53 +331,82 @@ type ServiceAccountTokenDescription struct {
 	ExpiresAt  string `json:"expires_at"`
 }
 
-type WorkplaceListResponse struct {
-	Workplace WorkplaceDescription `json:"workplace"`
+type ServiceAccountTokenDescription struct {
+	Name       string
+	Slug       string
+	CreatedAt  string
+	LastSeenAt string
+	ExpiresAt  string
 }
 
-type WorkplaceDescription struct {
+type WorkplaceListResponse struct {
+	Workplace WorkplaceJSON `json:"workplace"`
+}
+
+type WorkplaceJSON struct {
 	ID            string `json:"id"`
 	Name          string `json:"name"`
 	BillingEmail  string `json:"billing_email"`
 	SecurityEmail string `json:"security_email"`
 }
 
-type User struct {
+type WorkplaceDescription struct {
+	ID            string
+	Name          string
+	BillingEmail  string
+	SecurityEmail string
+}
+
+type UserJSON struct {
 	Email           string `json:"email"`
 	Name            string `json:"name"`
 	Username        string `json:"username"`
 	ProfileImageURL string `json:"profile_image_url"`
 }
 
+type User struct {
+	Email           string
+	Name            string
+	Username        string
+	ProfileImageURL string
+}
+
 type WorkplaceUserListResponse struct {
-	WorkplaceUsers []WorkplaceUserDescription `json:"workplace_users"`
-	Page           int                        `json:"page"`
+	WorkplaceUsers []WorkplaceUserJSON `json:"workplace_users"`
+	Page           int                 `json:"page"`
 }
 
 type WorkplaceUserGetResponse struct {
-	WorkplaceUser WorkplaceUserDescription `json:"workplace_user"`
+	WorkplaceUser WorkplaceUserJSON `json:"workplace_user"`
+}
+
+type WorkplaceUserJSON struct {
+	ID        string   `json:"id"`
+	Access    string   `json:"access"`
+	CreatedAt string   `json:"created_at"`
+	User      UserJSON `json:"user"`
 }
 
 type WorkplaceUserDescription struct {
-	ID        string `json:"id"`
-	Access    string `json:"access"`
-	CreatedAt string `json:"created_at"`
-	User      User   `json:"user"`
+	ID        string
+	Access    string
+	CreatedAt string
+	User      User
 }
 
 type WorkplaceRoleListResponse struct {
-	Roles []WorkplaceRoleDescription `json:"roles"`
+	Roles []WorkplaceRoleJSON `json:"roles"`
 }
 
 type WorkplaceRoleGetResponse struct {
-	Role WorkplaceRoleDescription `json:"role"`
+	Role WorkplaceRoleJSON `json:"role"`
 }
 
 type WorkplaceRoleDescription struct {
-	Name         string   `json:"name"`
-	Permissions  []string `json:"permissions"`
-	Identifier   string   `json:"identifier"`
-	CreatedAt    string   `json:"created_at"`
-	IsCustomRole bool     `json:"is_custom_role"`
-	IsInlineRole bool     `json:"is_inline_role"`
+	Name         string
+	Permissions  []string
+	Identifier   string
+	CreatedAt    string
+	IsCustomRole bool
+	IsInlineRole bool
 }
