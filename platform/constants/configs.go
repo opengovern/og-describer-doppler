@@ -13,10 +13,10 @@ var Manifest []byte
 var SetupMd []byte
 
 const (
-	IntegrationName = integration.Type("template") // example: aws_cloud, azure_subscription, github_account
+	IntegrationName = integration.Type("doppler_account") // example: aws_cloud, azure_subscription, github_account
 )
 
 const (
-	DescriberDeploymentName = "og-describers-template"
-	DescriberRunCommand     = "/og-describers-template"
+	DescriberDeploymentName = "og-describers-doppler"
+	DescriberRunCommand     = "/og-describers-doppler"
 )

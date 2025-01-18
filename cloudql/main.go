@@ -6,6 +6,5 @@ import (
 )
 
 func main() {
-	plugin.Serve(&plugin.ServeOpts{
-		PluginFunc: doppler.Plugin})
+	plugin.Serve(&plugin.ServeOpts{PluginFunc: doppler.Plugin})
 }

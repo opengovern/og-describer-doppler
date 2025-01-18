@@ -2,7 +2,6 @@ package provider
 
 import (
 	"errors"
-	"github.com/opengovern/og-describer-doppler/discovery/describers"
 	"github.com/opengovern/og-describer-doppler/discovery/pkg/models"
 	"github.com/opengovern/og-util/pkg/describe/enums"
 	resilientbridge "github.com/opengovern/resilient-bridge"
@@ -14,7 +13,7 @@ import (
 // DescribeListByDoppler A wrapper to pass doppler authorization to describers functions
 func DescribeListByDoppler(describe func(context.Context, *resilientbridge.ResilientBridge, *models.StreamSender) ([]models.Resource, error)) models.ResourceDescriber {
 	return func(ctx context.Context, cfg models.IntegrationCredentials, triggerType enums.DescribeTriggerType, additionalParameters map[string]string, stream *models.StreamSender) ([]models.Resource, error) {
-		ctx = describers.WithTriggerType(ctx, triggerType)
+		ctx = WithTriggerType(ctx, triggerType)
 
 		var err error
 		// Check for the token
@@ -50,7 +49,7 @@ func DescribeListByDoppler(describe func(context.Context, *resilientbridge.Resil
 // DescribeSingleByDoppler A wrapper to pass doppler authorization to describers functions
 func DescribeSingleByDoppler(describe func(context.Context, *resilientbridge.ResilientBridge, string) (*models.Resource, error)) models.SingleResourceDescriber {
 	return func(ctx context.Context, cfg models.IntegrationCredentials, triggerType enums.DescribeTriggerType, additionalParameters map[string]string, resourceID string, stream *models.StreamSender) (*models.Resource, error) {
-		ctx = describers.WithTriggerType(ctx, triggerType)
+		ctx = WithTriggerType(ctx, triggerType)
 
 		var err error
 		// Check for the token

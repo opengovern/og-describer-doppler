@@ -1,4 +1,4 @@
-// describers.go
+// describer.go
 package cmd
 
 import (
@@ -26,22 +26,11 @@ var (
 	outputFile   string
 )
 
-// describerCmd represents the describers command
+// describerCmd represents the describer command
 var describerCmd = &cobra.Command{
-	Use:   "describers",
+	Use:   "describer",
 	Short: "A brief description of your command",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		// Environment takes priority
-		orgEnv := os.Getenv("GITHUB_ORG") //example parameter
-		patEnv := os.Getenv("GITHUB_PAT") //example  credential
-
-		if orgEnv != "" {
-			OrganizationName = orgEnv
-		}
-
-		if patEnv != "" {
-			PatToken = patEnv
-		}
 
 		// Open the output file
 		file, err := os.Create(outputFile)
@@ -51,16 +40,14 @@ var describerCmd = &cobra.Command{
 		defer file.Close() // Ensure the file is closed at the end
 
 		job := describe.DescribeJob{
-			JobID:           uint(uuid.New().ID()),
-			ResourceType:    resourceType,
-			IntegrationID:   "",
-			ProviderID:      "",
-			DescribedAt:     time.Now().UnixMilli(),
-			IntegrationType: global.IntegrationTypeLower,
-			CipherText:      "",
-			IntegrationLabels: map[string]string{
-				"OrganizationName": OrganizationName,
-			},
+			JobID:                  uint(uuid.New().ID()),
+			ResourceType:           resourceType,
+			IntegrationID:          "",
+			ProviderID:             "",
+			DescribedAt:            time.Now().UnixMilli(),
+			IntegrationType:        global.IntegrationTypeLower,
+			CipherText:             "",
+			IntegrationLabels:      map[string]string{},
 			IntegrationAnnotations: nil,
 		}
 
@@ -68,7 +55,7 @@ var describerCmd = &cobra.Command{
 		logger, _ := zap.NewProduction()
 
 		creds, err := provider.AccountCredentialsFromMap(map[string]any{
-			"pat_token": PatToken,
+			"token": Token,
 		})
 		if err != nil {
 			return fmt.Errorf(" account credentials: %w", err)

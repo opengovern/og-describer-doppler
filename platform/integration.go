@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/opengovern/og-describer-template/global"
-	"github.com/opengovern/og-describer-template/global/maps"
-	"github.com/opengovern/og-describer-template/platform/constants"
+	"github.com/jackc/pgtype"
+	"github.com/opengovern/og-describer-doppler/global"
+	"github.com/opengovern/og-describer-doppler/global/maps"
+	"github.com/opengovern/og-describer-doppler/platform/constants"
 	"github.com/opengovern/og-util/pkg/integration"
 	"github.com/opengovern/og-util/pkg/integration/interfaces"
 )
@@ -19,7 +20,7 @@ func (i *Integration) GetConfiguration() (interfaces.IntegrationConfiguration, e
 		NatsConsumerGroup:        global.ConsumerGroup,
 		NatsConsumerGroupManuals: global.ConsumerGroupManuals,
 
-		SteampipePluginName: "template",
+		SteampipePluginName: "doppler",
 
 		UISpec:   constants.UISpec,
 		Manifest: constants.Manifest,
@@ -36,8 +37,9 @@ func (i *Integration) HealthCheck(jsonData []byte, providerId string, labels map
 	if err != nil {
 		return false, err
 	}
-	// TODO add credentials
-	isHealthy, err := IntegrationHealthcheck(Config{})
+	isHealthy, err := DopplerIntegrationHealthcheck(ConfigHealthCheck{
+		Token: credentials.Token,
+	})
 
 	return isHealthy, err
 }
@@ -49,8 +51,27 @@ func (i *Integration) DiscoverIntegrations(jsonData []byte) ([]integration.Integ
 		return nil, err
 	}
 	var integrations []integration.Integration
-	// TODO
-	_, err = IntegrationDiscovery(Config{})
+	workplace, err := DopplerIntegrationDiscovery(ConfigDiscovery{
+		Token: credentials.Token,
+	})
+	labels := map[string]string{
+		"BillingEmail":  workplace.BillingEmail,
+		"SecurityEmail": workplace.SecurityEmail,
+	}
+	labelsJsonData, err := json.Marshal(labels)
+	if err != nil {
+		return nil, err
+	}
+	integrationLabelsJsonb := pgtype.JSONB{}
+	err = integrationLabelsJsonb.Set(labelsJsonData)
+	if err != nil {
+		return nil, err
+	}
+	integrations = append(integrations, integration.Integration{
+		ProviderID: workplace.ID,
+		Name:       workplace.Name,
+		Labels:     integrationLabelsJsonb,
+	})
 
 	return integrations, nil
 }
