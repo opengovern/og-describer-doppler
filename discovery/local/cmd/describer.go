@@ -1,35 +1,48 @@
+// describers.go
 package cmd
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/opengovern/og-describer-doppler/discovery/pkg/models"
 	"github.com/opengovern/og-describer-doppler/global"
-	"github.com/opengovern/og-describer-doppler/pkg/describer"
-	model "github.com/opengovern/og-describer-doppler/pkg/sdk/models"
-	"github.com/opengovern/og-describer-doppler/provider"
-	"github.com/opengovern/og-describer-doppler/steampipe"
-	"github.com/opengovern/og-util/pkg/describe"
-	"github.com/opengovern/og-util/pkg/es"
-	"github.com/spf13/cobra"
-	"go.uber.org/zap"
-	"golang.org/x/net/context"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/google/uuid"
+	model "github.com/opengovern/og-describer-doppler/discovery/pkg/models"
+	"github.com/opengovern/og-describer-doppler/discovery/pkg/orchestrator"
+	"github.com/opengovern/og-describer-doppler/discovery/provider"
+	"github.com/opengovern/og-util/pkg/describe"
+	"github.com/opengovern/og-util/pkg/es"
+	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 )
 
 var (
-	resourceID string
+	resourceType string
+	outputFile   string
 )
 
-// getDescriberCmd represents the describers command
-var getDescriberCmd = &cobra.Command{
-	Use:   "getDescriber",
+// describerCmd represents the describers command
+var describerCmd = &cobra.Command{
+	Use:   "describers",
 	Short: "A brief description of your command",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		// Environment takes priority
+		orgEnv := os.Getenv("GITHUB_ORG") //example parameter
+		patEnv := os.Getenv("GITHUB_PAT") //example  credential
+
+		if orgEnv != "" {
+			OrganizationName = orgEnv
+		}
+
+		if patEnv != "" {
+			PatToken = patEnv
+		}
+
 		// Open the output file
 		file, err := os.Create(outputFile)
 		if err != nil {
@@ -38,28 +51,34 @@ var getDescriberCmd = &cobra.Command{
 		defer file.Close() // Ensure the file is closed at the end
 
 		job := describe.DescribeJob{
-			JobID:                  uint(uuid.New().ID()),
-			ResourceType:           resourceType,
-			IntegrationID:          "",
-			ProviderID:             "",
-			DescribedAt:            time.Now().UnixMilli(),
-			IntegrationType:        global.IntegrationTypeLower,
-			CipherText:             "",
-			IntegrationLabels:      nil,
+			JobID:           uint(uuid.New().ID()),
+			ResourceType:    resourceType,
+			IntegrationID:   "",
+			ProviderID:      "",
+			DescribedAt:     time.Now().UnixMilli(),
+			IntegrationType: global.IntegrationTypeLower,
+			CipherText:      "",
+			IntegrationLabels: map[string]string{
+				"OrganizationName": OrganizationName,
+			},
 			IntegrationAnnotations: nil,
 		}
 
 		ctx := context.Background()
 		logger, _ := zap.NewProduction()
 
-		// TODO: Set the credentials
-		creds := models.IntegrationCredentials{}
+		creds, err := provider.AccountCredentialsFromMap(map[string]any{
+			"pat_token": PatToken,
+		})
+		if err != nil {
+			return fmt.Errorf(" account credentials: %w", err)
+		}
 
 		additionalParameters, err := provider.GetAdditionalParameters(job)
 		if err != nil {
 			return err
 		}
-		plg := steampipe.Plugin()
+		plg := global.Plugin()
 
 		f := func(resource model.Resource) error {
 			if resource.Description == nil {
@@ -90,7 +109,7 @@ var getDescriberCmd = &cobra.Command{
 			}
 
 			if plg != nil {
-				_, _, err = steampipe.ExtractTagsAndNames(logger, plg, job.ResourceType, resource)
+				_, _, err = global.ExtractTagsAndNames(logger, plg, job.ResourceType, resource)
 				if err != nil {
 					logger.Error("failed to build tags for service", zap.Error(err), zap.String("resourceType", job.ResourceType), zap.Any("resource", resource))
 				}
@@ -134,14 +153,13 @@ var getDescriberCmd = &cobra.Command{
 		}
 		clientStream := (*model.StreamSender)(&f)
 
-		err = describer.GetSingleResource(
+		err = orchestrator.GetResources(
 			ctx,
 			logger,
 			job.ResourceType,
 			job.TriggerType,
 			creds,
 			additionalParameters,
-			resourceID,
 			clientStream,
 		)
 		if err != nil {
@@ -152,7 +170,30 @@ var getDescriberCmd = &cobra.Command{
 }
 
 func init() {
-	getDescriberCmd.Flags().StringVar(&resourceType, "resourceType", "", "Resource type")
-	getDescriberCmd.Flags().StringVar(&resourceID, "resourceID", "", "Resource ID")
-	getDescriberCmd.Flags().StringVar(&outputFile, "outputFile", "output.json", "File to write JSON outputs")
+	describerCmd.Flags().StringVar(&resourceType, "resourceType", "", "Resource type")
+	describerCmd.Flags().StringVar(&outputFile, "outputFile", "output.json", "File to write JSON outputs")
+}
+
+func trimJsonFromEmptyObjects(input []byte) ([]byte, error) {
+	unknownData := map[string]any{}
+	err := json.Unmarshal(input, &unknownData)
+	if err != nil {
+		return nil, err
+	}
+	trimEmptyMaps(unknownData)
+	return json.Marshal(unknownData)
+}
+
+func trimEmptyMaps(input map[string]any) {
+	for key, value := range input {
+		switch value.(type) {
+		case map[string]any:
+			if len(value.(map[string]any)) != 0 {
+				trimEmptyMaps(value.(map[string]any))
+			}
+			if len(value.(map[string]any)) == 0 {
+				delete(input, key)
+			}
+		}
+	}
 }

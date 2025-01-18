@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
+	"github.com/opengovern/og-describer-doppler/discovery/pkg/models"
+	"github.com/opengovern/og-describer-doppler/global"
 	"github.com/opengovern/og-describer-doppler/pkg/describer"
 	model "github.com/opengovern/og-describer-doppler/pkg/sdk/models"
 	"github.com/opengovern/og-describer-doppler/provider"
-	"github.com/opengovern/og-describer-doppler/provider/configs"
 	"github.com/opengovern/og-describer-doppler/steampipe"
 	"github.com/opengovern/og-util/pkg/describe"
 	"github.com/opengovern/og-util/pkg/es"
@@ -25,9 +26,9 @@ var (
 	outputFile   string
 )
 
-// describerCmd represents the describer command
+// describerCmd represents the describers command
 var describerCmd = &cobra.Command{
-	Use:   "describer",
+	Use:   "describers",
 	Short: "A brief description of your command",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Open the output file
@@ -43,7 +44,7 @@ var describerCmd = &cobra.Command{
 			IntegrationID:          "",
 			ProviderID:             "",
 			DescribedAt:            time.Now().UnixMilli(),
-			IntegrationType:        configs.IntegrationTypeLower,
+			IntegrationType:        global.IntegrationTypeLower,
 			CipherText:             "",
 			IntegrationLabels:      nil,
 			IntegrationAnnotations: nil,
@@ -53,7 +54,7 @@ var describerCmd = &cobra.Command{
 		logger, _ := zap.NewProduction()
 
 		// TODO: Set the credentials
-		creds := configs.IntegrationCredentials{
+		creds := models.IntegrationCredentials{
 			Token: "",
 		}
 
@@ -110,7 +111,7 @@ var describerCmd = &cobra.Command{
 				ResourceID:      resource.UniqueID(),
 				ResourceName:    resource.Name,
 				Description:     description,
-				IntegrationType: configs.IntegrationName,
+				IntegrationType: global.IntegrationName,
 				ResourceType:    strings.ToLower(job.ResourceType),
 				IntegrationID:   job.IntegrationID,
 				Metadata:        metadata,

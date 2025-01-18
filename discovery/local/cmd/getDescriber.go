@@ -4,12 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/opengovern/og-describer-doppler/discovery/pkg/models"
+	model "github.com/opengovern/og-describer-doppler/discovery/pkg/models"
+	"github.com/opengovern/og-describer-doppler/discovery/pkg/orchestrator"
+	"github.com/opengovern/og-describer-doppler/discovery/provider"
 	"github.com/opengovern/og-describer-doppler/global"
-	"github.com/opengovern/og-describer-doppler/pkg/describer"
-	model "github.com/opengovern/og-describer-doppler/pkg/sdk/models"
-	"github.com/opengovern/og-describer-doppler/provider"
-	"github.com/opengovern/og-describer-doppler/steampipe"
 	"github.com/opengovern/og-util/pkg/describe"
 	"github.com/opengovern/og-util/pkg/es"
 	"github.com/spf13/cobra"
@@ -22,7 +20,9 @@ import (
 )
 
 var (
-	resourceID string
+	resourceID       string
+	PatToken         = os.Getenv("PAT_TOKEN")         //example credes
+	OrganizationName = os.Getenv("ORGANIZATION_NAME") // example parameter
 )
 
 // getDescriberCmd represents the describers command
@@ -38,28 +38,34 @@ var getDescriberCmd = &cobra.Command{
 		defer file.Close() // Ensure the file is closed at the end
 
 		job := describe.DescribeJob{
-			JobID:                  uint(uuid.New().ID()),
-			ResourceType:           resourceType,
-			IntegrationID:          "",
-			ProviderID:             "",
-			DescribedAt:            time.Now().UnixMilli(),
-			IntegrationType:        global.IntegrationTypeLower,
-			CipherText:             "",
-			IntegrationLabels:      nil,
+			JobID:           uint(uuid.New().ID()),
+			ResourceType:    resourceType,
+			IntegrationID:   "",
+			ProviderID:      "",
+			DescribedAt:     time.Now().UnixMilli(),
+			IntegrationType: global.IntegrationTypeLower,
+			CipherText:      "",
+			IntegrationLabels: map[string]string{
+				"OrganizationName": OrganizationName, // example parameter
+			},
 			IntegrationAnnotations: nil,
 		}
 
 		ctx := context.Background()
 		logger, _ := zap.NewProduction()
 
-		// TODO: Set the credentials
-		creds := models.IntegrationCredentials{}
+		creds, err := provider.AccountCredentialsFromMap(map[string]any{
+			"pat_token": PatToken,
+		})
+		if err != nil {
+			return fmt.Errorf(" account credentials: %w", err)
+		}
 
 		additionalParameters, err := provider.GetAdditionalParameters(job)
 		if err != nil {
 			return err
 		}
-		plg := steampipe.Plugin()
+		plg := global.Plugin()
 
 		f := func(resource model.Resource) error {
 			if resource.Description == nil {
@@ -90,7 +96,7 @@ var getDescriberCmd = &cobra.Command{
 			}
 
 			if plg != nil {
-				_, _, err = steampipe.ExtractTagsAndNames(logger, plg, job.ResourceType, resource)
+				_, _, err = global.ExtractTagsAndNames(logger, plg, job.ResourceType, resource)
 				if err != nil {
 					logger.Error("failed to build tags for service", zap.Error(err), zap.String("resourceType", job.ResourceType), zap.Any("resource", resource))
 				}
@@ -134,7 +140,7 @@ var getDescriberCmd = &cobra.Command{
 		}
 		clientStream := (*model.StreamSender)(&f)
 
-		err = describer.GetSingleResource(
+		err = orchestrator.GetSingleResource(
 			ctx,
 			logger,
 			job.ResourceType,

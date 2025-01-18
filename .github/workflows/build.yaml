@@ -37,17 +37,17 @@ jobs:
         run: |
           git config --global url.https://$GH_ACCESS_TOKEN@github.com/opengovern.insteadOf https://github.com/opengovern
       - name: Build Doppler Plugin App
-        working-directory: ./steampipe-plugin-doppler
+        working-directory: ./cloudql
         run: make build
       - name: Pack Doppler Plugin Build
-        working-directory: ./steampipe-plugin-doppler
+        working-directory: ./cloudql
         run: |
           tar -cvf build.tar build
       - name: Upload Doppler Plugin Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: steampipe-plugin-doppler
-          path: ./steampipe-plugin-doppler/build.tar
+          name: cloudql
+          path: ./cloudql/build.tar
           retention-days: 1
       - name: Build Local Describer App
         working-directory: .
@@ -59,7 +59,7 @@ jobs:
       - name: Upload Local Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: local-og-describer-doppler
+          name: local-og-describers-doppler
           path: ./local.tar
           retention-days: 1
       - name: Set Latest Tag Output
@@ -84,7 +84,7 @@ jobs:
       - name: Download Doppler Plugin Artifact
         uses: actions/download-artifact@v3
         with:
-          name: steampipe-plugin-doppler
+          name: cloudql
           path: .
       - name: Unpack Doppler Plugin Artifact
         run: |
@@ -102,7 +102,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/steampipe-plugin-doppler:0.0.1
             ghcr.io/${{ github.repository_owner }}/steampipe-plugin-doppler:${{ needs.build.outputs.latest_tag }}
-          file: steampipe-plugin-doppler/docker/Dockerfile
+          file: cloudql/docker/Dockerfile
           context: .
 
   deploy-local-describer:
@@ -119,7 +119,7 @@ jobs:
       - name: Download Local Describer Artifact
         uses: actions/download-artifact@v3
         with:
-          name: local-og-describer-doppler
+          name: local-og-describers-doppler
           path: .
       - name: Unpack Local Describer Artifact
         run: |
